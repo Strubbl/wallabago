@@ -9,6 +9,17 @@ import (
 	"os"
 )
 
+var Config WallabagConfig
+var token Token
+
+type WallabagConfig struct {
+	WallabagURL  string
+	ClientId     string
+	ClientSecret string
+	UserName     string
+	UserPassword string
+}
+
 type Token struct {
 	AccessToken  string `json:"access_token"`
 	ExpiresIn    int    `json:"expires_in"`
@@ -18,13 +29,13 @@ type Token struct {
 }
 
 func GetToken() Token {
-	tokenURL := WallabagURL + "/oauth/v2/token"
+	tokenURL := Config.WallabagURL + "/oauth/v2/token"
 	resp, err := http.PostForm(tokenURL,
 		url.Values{"grant_type": {"password"},
-			"client_id":     {ClientId},
-			"client_secret": {ClientSecret},
-			"username":      {UserName},
-			"password":      {UserPassword},
+			"client_id":     {Config.ClientId},
+			"client_secret": {Config.ClientSecret},
+			"username":      {Config.UserName},
+			"password":      {Config.UserPassword},
 		})
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "token: getting token failed %s: %v\n", tokenURL, err)

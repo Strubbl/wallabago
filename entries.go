@@ -26,7 +26,7 @@ type Link struct {
 }
 
 func GetEntries(archive int, starred int, sort string, order string, page int, perPage int, tags string) Entries {
-	entriesURL := WallabagURL + "/api/entries.json?"
+	entriesURL := Config.WallabagURL + "/api/entries.json?"
 	if archive == 0 || archive == 1 {
 		entriesURL += "archive=" + string(archive) + "&"
 	}
