@@ -1,4 +1,15 @@
-https://goreportcard.com/
-https://github.com/wcharczuk/go-chart
-http://bl.ocks.org/mbostock/3943967 from https://github.com/d3/d3/wiki/Gallery
+# wallabago
 
+Go wrapper for the [Wallabag](https://github.com/wallabag/wallabag/) API
+
+
+## Go Report Card
+
+https://goreportcard.com/
+
+
+## Links
+
+- http://wallabag.org/
+- https://github.com/wallabag/wallabag/
+- http://doc.wallabag.org/en/master/developer/api.html
