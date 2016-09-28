@@ -25,7 +25,7 @@ type Link struct {
 	Href string
 }
 
-func getEntries(archive int, starred int, sort string, order string, page int, perPage int, tags string) Entries {
+func GetEntries(archive int, starred int, sort string, order string, page int, perPage int, tags string) Entries {
 	entriesURL := WallabagURL + "/api/entries.json?"
 	if archive == 0 || archive == 1 {
 		entriesURL += "archive=" + string(archive) + "&"
@@ -59,18 +59,18 @@ func getEntries(archive int, starred int, sort string, order string, page int, p
 	return e
 }
 
-func getAllEntries() Entries {
-	return getEntries(-1, -1, "", "", -1, -1, "")
+func GetAllEntries() Entries {
+	return GetEntries(-1, -1, "", "", -1, -1, "")
 }
 
-func getNumberOfTotalArticles() int {
-	return getAllEntries().Total
+func GetNumberOfTotalArticles() int {
+	return GetAllEntries().Total
 }
 
-func getNumberOfArchivedArticles() int {
-	return getEntries(1, -1, "", "", -1, -1, "").Total
+func GetNumberOfArchivedArticles() int {
+	return GetEntries(1, -1, "", "", -1, -1, "").Total
 }
 
-func getNumberOfStarredArticles() int {
-	return getEntries(-1, 1, "", "", -1, -1, "").Total
+func GetNumberOfStarredArticles() int {
+	return GetEntries(-1, 1, "", "", -1, -1, "").Total
 }
