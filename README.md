@@ -10,6 +10,11 @@ Go wrapper for the [Wallabag](https://github.com/wallabag/wallabag/) API
 - http://doc.wallabag.org/en/master/developer/api.html
 
 
-## Go Report Card
+## Project Status
+### Travis CI
+
+[![Build Status](https://travis-ci.org/Strubbl/wallabago.svg?branch=master)](https://travis-ci.org/Strubbl/wallabago)
+
+### Go Report Card
 
 [![Go Report Card Badge](https://goreportcard.com/badge/github.com/Strubbl/wallabago)](https://goreportcard.com/report/github.com/Strubbl/wallabago)
