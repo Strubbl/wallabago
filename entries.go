@@ -30,7 +30,7 @@ type Link struct {
 
 // GetEntries queries the API for articles according to the API request /entries
 func GetEntries(archive int, starred int, sort string, order string, page int, perPage int, tags string) Entries {
-	entriesURL := config.WallabagURL + "/api/entries.json?"
+	entriesURL := Config.WallabagURL + "/api/entries.json?"
 	if archive == 0 || archive == 1 {
 		entriesURL += "archive=" + string(archive) + "&"
 	}
