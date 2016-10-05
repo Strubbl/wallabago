@@ -9,17 +9,19 @@ import (
 	"os"
 )
 
-var Config WallabagConfig
+var config WallabagConfig
 var token Token
 
+// WallabagConfig contains all data needed to connect to wallabag API like URL, id and secret of the API client and user name and according password
 type WallabagConfig struct {
 	WallabagURL  string
-	ClientId     string
+	ClientID     string
 	ClientSecret string
 	UserName     string
 	UserPassword string
 }
 
+// Token represents the object being returned from the oauth process at the API containing the access token, expire time, type of token, scope and a refresh token
 type Token struct {
 	AccessToken  string `json:"access_token"`
 	ExpiresIn    int    `json:"expires_in"`
@@ -28,14 +30,14 @@ type Token struct {
 	RefreshToken string `json:"refresh_token"`
 }
 
-func GetToken() Token {
-	tokenURL := Config.WallabagURL + "/oauth/v2/token"
+func getToken() Token {
+	tokenURL := config.WallabagURL + "/oauth/v2/token"
 	resp, err := http.PostForm(tokenURL,
 		url.Values{"grant_type": {"password"},
-			"client_id":     {Config.ClientId},
-			"client_secret": {Config.ClientSecret},
-			"username":      {Config.UserName},
-			"password":      {Config.UserPassword},
+			"client_id":     {config.ClientID},
+			"client_secret": {config.ClientSecret},
+			"username":      {config.UserName},
+			"password":      {config.UserPassword},
 		})
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "token: getting token failed %s: %v\n", tokenURL, err)

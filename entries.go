@@ -6,6 +6,7 @@ import (
 	"os"
 )
 
+// Entries represents the object being returned from the API request /entries
 type Entries struct {
 	Page      int
 	Limit     int
@@ -14,6 +15,7 @@ type Entries struct {
 	NaviLinks *Links `json:"_links"`
 }
 
+// Links contains four links (self, first, last, next), being part of the Entries object
 type Links struct {
 	Self  *Link
 	First *Link
@@ -21,12 +23,14 @@ type Links struct {
 	Next  *Link
 }
 
+// Link object consists of its URL
 type Link struct {
 	Href string
 }
 
+// GetEntries queries the API for articles according to the API request /entries
 func GetEntries(archive int, starred int, sort string, order string, page int, perPage int, tags string) Entries {
-	entriesURL := Config.WallabagURL + "/api/entries.json?"
+	entriesURL := config.WallabagURL + "/api/entries.json?"
 	if archive == 0 || archive == 1 {
 		entriesURL += "archive=" + string(archive) + "&"
 	}
@@ -59,18 +63,22 @@ func GetEntries(archive int, starred int, sort string, order string, page int, p
 	return e
 }
 
+// GetAllEntries calls GetEntries with no parameters, thus using the default values of the API request /entries and returning all articles, of course not all at once, but limitted to page through
 func GetAllEntries() Entries {
 	return GetEntries(-1, -1, "", "", -1, -1, "")
 }
 
+// GetNumberOfTotalArticles returns the number of all articles saved in wallabag
 func GetNumberOfTotalArticles() int {
 	return GetAllEntries().Total
 }
 
+// GetNumberOfArchivedArticles returns the number of archived articles in wallabag
 func GetNumberOfArchivedArticles() int {
 	return GetEntries(1, -1, "", "", -1, -1, "").Total
 }
 
+// GetNumberOfStarredArticles returns the number of starred articles in wallabag (including unread and archived starred ones)
 func GetNumberOfStarredArticles() int {
 	return GetEntries(-1, 1, "", "", -1, -1, "").Total
 }

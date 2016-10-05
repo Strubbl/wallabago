@@ -1,5 +1,7 @@
 package wallabago
 
+// Version returns the version of the configured wallabag instance
 func Version() string {
-	return getBodyOfURL(Config.WallabagURL + "/api/version")
+	v := getBodyOfURL(config.WallabagURL + "/api/version")
+	return v[1 : len(v)-2]
 }
