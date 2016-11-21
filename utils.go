@@ -14,13 +14,11 @@ func getBodyOfURL(url string) string {
 	resp, err := http.Get(url)
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "getBodyOfURL: %v\n", err)
-		os.Exit(1)
 	}
 	defer resp.Body.Close()
 	b, err := ioutil.ReadAll(resp.Body)
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "getBodyOfURL: reading %s: %v\n", url, err)
-		os.Exit(1)
 	}
 	log.Print(resp.Status)
 	//fmt.Printf("%s", b)
@@ -39,7 +37,6 @@ func getBodyOfAPIURL(url string) []byte {
 	resp, err := client.Do(req)
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "getBodyOfAPIURL: error while client.Do %v\n", err)
-		os.Exit(1)
 	}
 	defer resp.Body.Close()
 	body, err := ioutil.ReadAll(resp.Body)
