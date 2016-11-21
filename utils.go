@@ -38,11 +38,14 @@ func getBodyOfAPIURL(url string) []byte {
 	req.Header.Add("Authorization", authString)
 	resp, err := client.Do(req)
 	if err != nil {
-		fmt.Fprintf(os.Stderr, "getBodyOfAPIURL: %v\n", err)
+		fmt.Fprintf(os.Stderr, "getBodyOfAPIURL: error while client.Do %v\n", err)
 		os.Exit(1)
 	}
 	defer resp.Body.Close()
 	body, err := ioutil.ReadAll(resp.Body)
+	if err != nil {
+		fmt.Fprintf(os.Stderr, "getBodyOfAPIURL: error while ioutil.ReadAll %v\n", err)
+	}
 	return body
 }
 

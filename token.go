@@ -41,14 +41,17 @@ func getToken() Token {
 			"password":      {Config.UserPassword},
 		})
 	if err != nil {
-		fmt.Fprintf(os.Stderr, "token: getting token failed %s: %v\n", tokenURL, err)
+		fmt.Fprintf(os.Stderr, "getToken: getting token failed %s: %v\n", tokenURL, err)
 	}
 	defer resp.Body.Close()
 	body, err := ioutil.ReadAll(resp.Body)
+	if err != nil {
+		fmt.Fprintf(os.Stderr, "getToken: error while ioutil.ReadAll %v\n", err)
+	}
 	//log.Printf("GetToken: body=%v\n", string(body))
 	var token Token
 	if err := json.Unmarshal(body, &token); err != nil {
-		fmt.Fprintf(os.Stderr, "token: getting token failed %s: %v\n", tokenURL, err)
+		fmt.Fprintf(os.Stderr, "getToken: getting token failed %s: %v\n", tokenURL, err)
 	}
 	return token
 }
