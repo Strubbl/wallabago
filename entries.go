@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"os"
+	"strconv"
 )
 
 // Entries represents the object being returned from the API request /entries
@@ -32,10 +33,10 @@ type Link struct {
 func GetEntries(archive int, starred int, sort string, order string, page int, perPage int, tags string) Entries {
 	entriesURL := Config.WallabagURL + "/api/entries.json?"
 	if archive == 0 || archive == 1 {
-		entriesURL += "archive=" + string(archive) + "&"
+		entriesURL += "archive=" + strconv.Itoa(archive) + "&"
 	}
 	if starred == 0 || starred == 1 {
-		entriesURL += "starred=" + string(starred) + "&"
+		entriesURL += "starred=" + strconv.Itoa(starred) + "&"
 	}
 	if sort == "created" || sort == "updated" {
 		entriesURL += "sort=" + sort + "&"
@@ -44,10 +45,10 @@ func GetEntries(archive int, starred int, sort string, order string, page int, p
 		entriesURL += "order=" + order + "&"
 	}
 	if page > 0 {
-		entriesURL += "page=" + string(page) + "&"
+		entriesURL += "page=" + strconv.Itoa(page) + "&"
 	}
 	if perPage > 0 {
-		entriesURL += "perPage=" + string(perPage) + "&"
+		entriesURL += "perPage=" + strconv.Itoa(perPage) + "&"
 	}
 	if tags != "" {
 		entriesURL += "tags=" + tags + "&"
