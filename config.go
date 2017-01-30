@@ -17,18 +17,26 @@ type WallabagConfig struct {
 	UserPassword string
 }
 
-func ReadConfig(configPath string) (err error) {
-	Config, err = getConfig(configPath)
+// ReadConfig will read the configuration from the given configJSON
+// file and set the global Config setting with the results of the
+// parsing
+func ReadConfig(configJSON string) (err error) {
+	Config, err = getConfig(configJSON)
+	return
 }
 
-func getConfig(configPath string) (config wallabago.WallabagConfig, err error) {
-	raw, err := ioutil.ReadFile(configPath)
+// getConfig reads a given configJSON file and parses the result, returning a parsed config object
+func getConfig(configJSON string) (config WallabagConfig, err error) {
+	raw, err := ioutil.ReadFile(configJSON)
 	if err != nil {
-		return config, err
+		return
 	}
 	config, err = readJSON(raw)
+	return
 }
 
-func readJSON(raw []byte) (config wallabago.WallabagConfig, err error) {
+// readJSON parses a byte stream into a WallabagConfig object
+func readJSON(raw []byte) (config WallabagConfig, err error) {
 	err = json.Unmarshal(raw, &config)
+	return
 }
