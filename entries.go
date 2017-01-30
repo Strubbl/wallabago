@@ -5,6 +5,8 @@ import (
 	"fmt"
 	"os"
 	"strconv"
+	"strings"
+	"time"
 )
 
 // Entries represents the object being returned from the API request /entries
@@ -13,7 +15,51 @@ type Entries struct {
 	Limit     int
 	Pages     int
 	Total     int
-	NaviLinks *Links `json:"_links"`
+	NaviLinks Links    `json:"_links"`
+	Embedded  Embedded `json:"_embedded"`
+}
+
+// Embedded items in the API request
+type Embedded struct {
+	Items []Item `json:"items"`
+}
+
+// Item represents individual items in API responses
+type Item struct {
+	Links       Links         `json:"_links"`
+	Annotations []interface{} `json:"annotations"`
+	CreatedAt   WallabagTime  `json:"created_at"`
+	DomainName  string        `json:"domain_name"`
+	ID          int           `json:"id"`
+	IsArchived  int           `json:"is_archived"`
+	IsStarred   int           `json:"is_starred"`
+	Mimetype    string        `json:"mimetype"`
+	ReadingTime int           `json:"reading_time"`
+	Tags        []interface{} `json:"tags"`
+	UpdatedAt   WallabagTime  `json:"updated_at"`
+	UserEmail   string        `json:"user_email"`
+	UserID      int           `json:"user_id"`
+	UserName    string        `json:"user_name"`
+}
+
+// WallabagTimeLayout is a variation of RFC3339 but without colons in
+// the timezone delimeter, breaking the RFC
+const WallabagTimeLayout = "2006-01-02T15:04:05-0700"
+
+// WallabagTime overrides builtin time to allow for custom time parsing
+type WallabagTime struct {
+	time.Time
+}
+
+// UnmarshalJSON parses the custom date format wallabag returns
+func (t *WallabagTime) UnmarshalJSON(buf []byte) (err error) {
+	s := strings.Trim(string(buf), `"`)
+	t.Time, err = time.Parse(WallabagTimeLayout, s)
+	if err != nil {
+		t.Time = time.Time{}
+		return
+	}
+	return
 }
 
 // Links contains four links (self, first, last, next), being part of the Entries object
