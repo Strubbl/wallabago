@@ -19,12 +19,14 @@ type Entries struct {
 	Embedded  Embedded `json:"_embedded"`
 }
 
+// Embedded items in the API request
 type Embedded struct {
 	Items []Item `json:"items"`
 }
 
+// Item represents individual items in API responses
 type Item struct {
-	_links      Links         `json:"_links"`
+	Links       Links         `json:"_links"`
 	Annotations []interface{} `json:"annotations"`
 	CreatedAt   WallabagTime  `json:"created_at"`
 	DomainName  string        `json:"domain_name"`
@@ -40,13 +42,16 @@ type Item struct {
 	UserName    string        `json:"user_name"`
 }
 
-// should be the same as RFC3339, but that actually can't parse -XXXX offsets (without colons)
+// WallabagTimeLayout is a variation of RFC3339 but without colons in
+// the timezone delimeter, breaking the RFC
 const WallabagTimeLayout = "2006-01-02T15:04:05-0700"
 
+// WallabagTime overrides builtin time to allow for custom time parsing
 type WallabagTime struct {
 	time.Time
 }
 
+// UnmarshalJSON parses the custom date format wallabag returns
 func (t *WallabagTime) UnmarshalJSON(buf []byte) (err error) {
 	s := strings.Trim(string(buf), `"`)
 	t.Time, err = time.Parse(WallabagTimeLayout, s)
