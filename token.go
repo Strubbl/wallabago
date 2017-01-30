@@ -9,18 +9,7 @@ import (
 	"os"
 )
 
-// Config containg all data to access wallabag API
-var Config WallabagConfig
 var token Token
-
-// WallabagConfig contains all data needed to connect to wallabag API like URL, id and secret of the API client and user name and according password
-type WallabagConfig struct {
-	WallabagURL  string
-	ClientID     string
-	ClientSecret string
-	UserName     string
-	UserPassword string
-}
 
 // Token represents the object being returned from the oauth process at the API containing the access token, expire time, type of token, scope and a refresh token
 type Token struct {
