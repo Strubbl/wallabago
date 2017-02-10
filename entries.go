@@ -129,3 +129,20 @@ func GetNumberOfArchivedArticles() int {
 func GetNumberOfStarredArticles() int {
 	return GetEntries(-1, 1, "", "", -1, -1, "").Total
 }
+
+//PostEntry creates a new article in wallabag
+func PostEntry(url, title, tags string, starred, archive int) {
+	postData := map[string]string{
+		"url":     url,
+		"title":   title,
+		"tags":    tags,
+		"starred": strconv.Itoa(starred),
+		"archive": strconv.Itoa(archive),
+	}
+	postDataJSON, err := json.Marshal(postData)
+	if err != nil {
+		fmt.Fprintf(os.Stderr, "PostEntry: json marshal of postData failed: %v\n", err)
+	}
+	entriesURL := Config.WallabagURL + "/api/entries.json"
+	postToAPI(entriesURL, postDataJSON)
+}
