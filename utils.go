@@ -26,12 +26,9 @@ func getBodyOfURL(url string) string {
 }
 
 func getBodyOfAPIURL(url string) []byte {
-	if token.TokenType == "" || token.AccessToken == "" {
-		token = getToken()
-	}
 	client := &http.Client{}
 	req, err := http.NewRequest("GET", url, nil)
-	authString := strings.ToUpper(string(token.TokenType[0])) + token.TokenType[1:len(token.TokenType)] + " " + token.AccessToken
+	authString := getAuthTokenHeader()
 	// log.Print("getBodyOfAPIURL: authString=" + authString)
 	req.Header.Add("Authorization", authString)
 	resp, err := client.Do(req)
@@ -54,10 +51,7 @@ func postToAPI(apiURL string, postData []byte) {
 	}
 
 	// auth
-	if token.TokenType == "" || token.AccessToken == "" {
-		token = getToken()
-	}
-	authString := strings.ToUpper(string(token.TokenType[0])) + token.TokenType[1:len(token.TokenType)] + " " + token.AccessToken
+	authString := getAuthTokenHeader()
 	req.Header.Add("Authorization", authString)
 	// exec POST request
 	resp, err := client.Do(req)

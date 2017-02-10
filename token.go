@@ -7,6 +7,7 @@ import (
 	"net/http"
 	"net/url"
 	"os"
+	"strings"
 )
 
 var token Token
@@ -43,4 +44,15 @@ func getToken() Token {
 		fmt.Fprintf(os.Stderr, "getToken: getting token failed %s: %v\n", tokenURL, err)
 	}
 	return token
+}
+
+func checkForToken() {
+	if token.TokenType == "" || token.AccessToken == "" {
+		token = getToken()
+	}
+}
+
+func getAuthTokenHeader() string {
+	checkForToken()
+	return strings.ToUpper(string(token.TokenType[0])) + token.TokenType[1:len(token.TokenType)] + " " + token.AccessToken
 }
