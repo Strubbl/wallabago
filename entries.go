@@ -144,5 +144,6 @@ func PostEntry(url, title, tags string, starred, archive int) {
 		fmt.Fprintf(os.Stderr, "PostEntry: json marshal of postData failed: %v\n", err)
 	}
 	entriesURL := Config.WallabagURL + "/api/entries.json"
-	postToAPI(entriesURL, postDataJSON)
+	body := postToAPI(entriesURL, postDataJSON)
+	fmt.Println("PostEntry: response:", string(body))
 }
