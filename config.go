@@ -5,7 +5,7 @@ import (
 	"io/ioutil"
 )
 
-// Config containg all data to access wallabag API
+// Config containing all data to access wallabag API
 var Config WallabagConfig
 
 // WallabagConfig contains all data needed to connect to wallabag API like URL, id and secret of the API client and user name and according password
