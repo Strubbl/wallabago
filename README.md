@@ -11,9 +11,16 @@ Go wrapper for the [Wallabag](https://github.com/wallabag/wallabag/) API
 
 
 ## Project Status
+
+### Currently supported wallabag version
+
+2.2.1
+
+
 ### Travis CI
 
 [![Build Status](https://travis-ci.org/Strubbl/wallabago.svg?branch=master)](https://travis-ci.org/Strubbl/wallabago)
+
 
 ### Go Report Card
 
