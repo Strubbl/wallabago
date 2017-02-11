@@ -52,7 +52,7 @@ func checkForToken() {
 	}
 }
 
-func getAuthTokenHeader() string {
+func GetAuthTokenHeader() string {
 	checkForToken()
 	return strings.ToUpper(string(token.TokenType[0])) + token.TokenType[1:len(token.TokenType)] + " " + token.AccessToken
 }
