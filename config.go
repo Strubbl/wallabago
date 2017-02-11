@@ -1,6 +1,7 @@
 package wallabago
 
 import (
+	"bytes"
 	"encoding/json"
 	"io/ioutil"
 )
@@ -37,6 +38,8 @@ func getConfig(configJSON string) (config WallabagConfig, err error) {
 
 // readJSON parses a byte stream into a WallabagConfig object
 func readJSON(raw []byte) (config WallabagConfig, err error) {
+	// trim BOM bytes that make the JSON parser crash
+	raw = bytes.TrimPrefix(raw, []byte("\xef\xbb\xbf"))
 	err = json.Unmarshal(raw, &config)
 	return
 }
