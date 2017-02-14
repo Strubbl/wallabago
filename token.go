@@ -21,6 +21,8 @@ type Token struct {
 	RefreshToken string `json:"refresh_token"`
 }
 
+// getToken will use the credentials set in the configuration to
+// request an access token from the wallabag API
 func getToken() Token {
 	tokenURL := Config.WallabagURL + "/oauth/v2/token"
 	resp, err := http.PostForm(tokenURL,
@@ -52,7 +54,9 @@ func checkForToken() {
 	}
 }
 
-func getAuthTokenHeader() string {
+// GetAuthTokenHeader will make sure there's a working token and
+// return a valid string to be used as an Authentication: header
+func GetAuthTokenHeader() string {
 	checkForToken()
 	return strings.ToUpper(string(token.TokenType[0])) + token.TokenType[1:len(token.TokenType)] + " " + token.AccessToken
 }

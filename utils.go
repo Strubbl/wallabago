@@ -28,7 +28,7 @@ func getBodyOfURL(url string) string {
 func getBodyOfAPIURL(url string) []byte {
 	client := &http.Client{}
 	req, err := http.NewRequest("GET", url, nil)
-	authString := getAuthTokenHeader()
+	authString := GetAuthTokenHeader()
 	// log.Print("getBodyOfAPIURL: authString=" + authString)
 	req.Header.Add("Authorization", authString)
 	resp, err := client.Do(req)
@@ -51,7 +51,7 @@ func postToAPI(apiURL string, postData []byte) []byte {
 	}
 
 	// auth
-	authString := getAuthTokenHeader()
+	authString := GetAuthTokenHeader()
 	req.Header.Add("Authorization", authString)
 	// exec POST request
 	resp, err := client.Do(req)
