@@ -25,7 +25,10 @@ func getBodyOfURL(url string) string {
 	return string(b)
 }
 
-func getBodyOfAPIURL(url string) []byte {
+// GetBodyOfAPIURL will do a simple GET request on the given URL and
+// return the body, with the proper Authorization headers as returned
+// by GetAuthTokenHeader
+func GetBodyOfAPIURL(url string) []byte {
 	client := &http.Client{}
 	req, err := http.NewRequest("GET", url, nil)
 	authString := GetAuthTokenHeader()

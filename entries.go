@@ -101,7 +101,7 @@ func GetEntries(archive int, starred int, sort string, order string, page int, p
 	}
 
 	//log.Printf("getEntries: entriesURL=%s", entriesURL)
-	body := getBodyOfAPIURL(entriesURL)
+	body := GetBodyOfAPIURL(entriesURL)
 	//log.Printf("getEntries: body=\n%v\n", string(body))
 	var e Entries
 	if err := json.Unmarshal(body, &e); err != nil {
