@@ -9,8 +9,11 @@ import (
 	"strings"
 )
 
-// BodyGetter represents a function returning the body of an HTTP response as string
-type BodyGetter func(url string) string
+// BodyStringGetter represents a function returning the body of an HTTP response as string
+type BodyStringGetter func(url string) string
+
+// BodyByteGetter represents a function returning the body of an HTTP response as byte array
+type BodyByteGetter func(url string) []byte
 
 // makes a HTTP request and returns the HTML code of that URL
 func getBodyOfURL(url string) string {

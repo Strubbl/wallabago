@@ -76,7 +76,7 @@ type Link struct {
 }
 
 // GetEntries queries the API for articles according to the API request /entries
-func GetEntries(archive int, starred int, sort string, order string, page int, perPage int, tags string) Entries {
+func GetEntries(bodyByteGetterFunc BodyByteGetter, archive int, starred int, sort string, order string, page int, perPage int, tags string) Entries {
 	entriesURL := Config.WallabagURL + "/api/entries.json?"
 	if archive == 0 || archive == 1 {
 		entriesURL += "archive=" + strconv.Itoa(archive) + "&"
@@ -101,7 +101,7 @@ func GetEntries(archive int, starred int, sort string, order string, page int, p
 	}
 
 	//log.Printf("getEntries: entriesURL=%s", entriesURL)
-	body := GetBodyOfAPIURL(entriesURL)
+	body := bodyByteGetterFunc(entriesURL)
 	//log.Printf("getEntries: body=\n%v\n", string(body))
 	var e Entries
 	if err := json.Unmarshal(body, &e); err != nil {
@@ -112,7 +112,7 @@ func GetEntries(archive int, starred int, sort string, order string, page int, p
 
 // GetAllEntries calls GetEntries with no parameters, thus using the default values of the API request /entries and returning all articles, of course not all at once, but limitted to page through
 func GetAllEntries() Entries {
-	return GetEntries(-1, -1, "", "", -1, -1, "")
+	return GetEntries(GetBodyOfAPIURL, -1, -1, "", "", -1, -1, "")
 }
 
 // GetNumberOfTotalArticles returns the number of all articles saved in wallabag
@@ -122,12 +122,12 @@ func GetNumberOfTotalArticles() int {
 
 // GetNumberOfArchivedArticles returns the number of archived articles in wallabag
 func GetNumberOfArchivedArticles() int {
-	return GetEntries(1, -1, "", "", -1, -1, "").Total
+	return GetEntries(GetBodyOfAPIURL, 1, -1, "", "", -1, -1, "").Total
 }
 
 // GetNumberOfStarredArticles returns the number of starred articles in wallabag (including unread and archived starred ones)
 func GetNumberOfStarredArticles() int {
-	return GetEntries(-1, 1, "", "", -1, -1, "").Total
+	return GetEntries(GetBodyOfAPIURL, -1, 1, "", "", -1, -1, "").Total
 }
 
 //PostEntry creates a new article in wallabag
