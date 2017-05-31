@@ -9,6 +9,9 @@ import (
 	"strings"
 )
 
+// BodyGetter represents a function returning the body of an HTTP response as string
+type BodyGetter func(url string) string
+
 // makes a HTTP request and returns the HTML code of that URL
 func getBodyOfURL(url string) string {
 	resp, err := http.Get(url)
