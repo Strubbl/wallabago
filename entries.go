@@ -35,7 +35,7 @@ type Item struct {
 	IsStarred   int           `json:"is_starred"`
 	Mimetype    string        `json:"mimetype"`
 	ReadingTime int           `json:"reading_time"`
-	Tags        []interface{} `json:"tags"`
+	Tags        []Tag         `json:"tags"`
 	UpdatedAt   WallabagTime  `json:"updated_at"`
 	UserEmail   string        `json:"user_email"`
 	UserID      int           `json:"user_id"`
