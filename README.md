@@ -37,7 +37,7 @@ Go wrapper for the [Wallabag](https://github.com/wallabag/wallabag/) API
 - [ ] `GET /api/entries/{entry}/export.{_format}`
 - [x] `GET /api/entries/{entry}/tags.{_format}`
 - [ ] `GET /api/tags.{_format}`
-- [ ] `GET /api/version.{_format}`
+- [x] `GET /api/version.{_format}`
 
 #### POST
 - [ ] `POST /api/annotations/{entry}.{_format}`
