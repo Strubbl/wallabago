@@ -32,7 +32,9 @@ Go wrapper for the [Wallabag](https://github.com/wallabag/wallabag/) API
 #### GET
 - [ ] `GET /api/annotations/{entry}.{_format}`
 - [x] `GET /api/entries.{_format}`
+- [ ] `GET /api/entries/exists.{_format}`
 - [ ] `GET /api/entries/{entry}.{_format}`
+- [ ] `GET /api/entries/{entry}/export.{_format}`
 - [ ] `GET /api/entries/{entry}/tags.{_format}`
 - [ ] `GET /api/tags.{_format}`
 - [ ] `GET /api/version.{_format}`
@@ -49,8 +51,11 @@ Go wrapper for the [Wallabag](https://github.com/wallabag/wallabag/) API
 - [ ] `DELETE /api/annotations/{annotation}.{_format}`
 - [ ] `DELETE /api/entries/{entry}.{_format}`
 - [ ] `DELETE /api/entries/{entry}/tags/{tag}.{_format}`
+- [ ] `DELETE /api/tag/label.{_format}`
+- [ ] `DELETE /api/tags/label.{_format}`
 - [ ] `DELETE /api/tags/{tag}.{_format}`
 
 #### PATCH
 - [ ] `PATCH /api/entries/{entry}.{_format}`
+- [ ] `PATCH /api/entries/{entry}/reload.{_format}`
 
