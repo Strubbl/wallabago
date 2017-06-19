@@ -147,3 +147,26 @@ func PostEntry(url, title, tags string, starred, archive int) {
 	body := APICall(entriesURL, "POST", postDataJSON)
 	fmt.Println("PostEntry: response:", string(body))
 }
+
+// GetEntriesExists queries the API for articles according to the API request /entries/exists
+// it checks if the urls in the given array exist
+// returns a map with the URL as key and the result as value
+func GetEntriesExists(bodyByteGetterFunc BodyByteGetter, urls []string) map[string]bool {
+	entriesExistsURL := Config.WallabagURL + "/api/entries/exists.json?"
+	if len(urls) > 0 {
+		for i := 0; i < len(urls); i++ {
+			entriesExistsURL += "urls[]=" + urls[i] + "&"
+		}
+	}
+	//log.Printf("getEntries: entriesExistsURL=%s", entriesExistsURL)
+	body := bodyByteGetterFunc(entriesExistsURL, "GET", nil)
+	//log.Printf("getEntries: body=\n%v\n", string(body))
+	// example response:
+	// {"http:\/\/0.0.0.0\/entry10":false,"http:\/\/0.0.0.0\/entry2":false}
+	//var e []Exists
+	var m map[string]bool
+	if err := json.Unmarshal(body, &m); err != nil {
+		fmt.Fprintf(os.Stderr, "getEntries: json unmarshal failed: %v\n", err)
+	}
+	return m
+}
