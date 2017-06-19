@@ -158,15 +158,21 @@ func GetEntriesExists(bodyByteGetterFunc BodyByteGetter, urls []string) map[stri
 			entriesExistsURL += "urls[]=" + urls[i] + "&"
 		}
 	}
-	//log.Printf("getEntries: entriesExistsURL=%s", entriesExistsURL)
 	body := bodyByteGetterFunc(entriesExistsURL, "GET", nil)
-	//log.Printf("getEntries: body=\n%v\n", string(body))
-	// example response:
-	// {"http:\/\/0.0.0.0\/entry10":false,"http:\/\/0.0.0.0\/entry2":false}
-	//var e []Exists
 	var m map[string]bool
 	if err := json.Unmarshal(body, &m); err != nil {
 		fmt.Fprintf(os.Stderr, "getEntries: json unmarshal failed: %v\n", err)
 	}
 	return m
+}
+
+// GetEntry queries the API for a specific article according to the API request /entries/ID
+func GetEntry(bodyByteGetterFunc BodyByteGetter, articleID int) Item {
+	entryURL := Config.WallabagURL + "/api/entries/" + strconv.Itoa(articleID) + ".json"
+	body := bodyByteGetterFunc(entryURL, "GET", nil)
+	var item Item
+	if err := json.Unmarshal(body, &item); err != nil {
+		fmt.Fprintf(os.Stderr, "getEntries: json unmarshal failed: %v\n", err)
+	}
+	return item
 }
