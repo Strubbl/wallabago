@@ -33,7 +33,7 @@ func getToken() Token {
 			"password":      {Config.UserPassword},
 		})
 	if err != nil {
-		fmt.Fprintf(os.Stderr, "getToken: getting token failed %s: %v\n", tokenURL, err)
+		fmt.Fprintf(os.Stderr, "getToken: getting token failed tokenURL=%s, err=%v\n", tokenURL, err)
 	}
 	defer resp.Body.Close()
 	body, err := ioutil.ReadAll(resp.Body)

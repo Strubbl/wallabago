@@ -18,6 +18,16 @@ type WallabagConfig struct {
 	UserPassword string
 }
 
+// NewWallabagConfig initializes a new WallabagConfig
+func NewWallabagConfig(wallabagURL, clientID, clientSecret, userName, userPassword string) WallabagConfig {
+	return WallabagConfig{wallabagURL, clientID, clientSecret, userName, userPassword}
+}
+
+// SetConfig sets global wallabago Config
+func SetConfig(wbgConfig WallabagConfig) {
+	Config = wbgConfig
+}
+
 // ReadConfig will read the configuration from the given configJSON
 // file and set the global Config setting with the results of the
 // parsing
