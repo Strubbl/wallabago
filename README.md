@@ -29,18 +29,28 @@ Go wrapper for the [Wallabag](https://github.com/wallabag/wallabag/) API
 
 ### Status of the implementation of the API calls
 
-- [ ] `DELETE /annotations/{annotation}.{_format}`
-- [ ] `PUT /annotations/{annotation}.{_format}`
-- [ ] `GET /annotations/{entry}.{_format}`
-- [ ] `POST /annotations/{entry}.{_format}`
+#### GET
+- [ ] `GET /api/annotations/{entry}.{_format}`
 - [x] `GET /api/entries.{_format}`
-- [x] `POST /api/entries.{_format}`
-- [ ] `DELETE /api/entries/{entry}.{_format}`
 - [ ] `GET /api/entries/{entry}.{_format}`
-- [ ] `PATCH /api/entries/{entry}.{_format}`
 - [ ] `GET /api/entries/{entry}/tags.{_format}`
-- [ ] `POST /api/entries/{entry}/tags.{_format}`
-- [ ] `DELETE /api/entries/{entry}/tags/{tag}.{_format}`
 - [ ] `GET /api/tags.{_format}`
-- [ ] `DELETE /api/tags/{tag}.{_format}`
 - [ ] `GET /api/version.{_format}`
+
+#### POST
+- [ ] `POST /api/annotations/{entry}.{_format}`
+- [x] `POST /api/entries.{_format}`
+- [ ] `POST /api/entries/{entry}/tags.{_format}`
+
+#### PUT
+- [ ] `PUT /api/annotations/{annotation}.{_format}`
+
+#### DELETE
+- [ ] `DELETE /api/annotations/{annotation}.{_format}`
+- [ ] `DELETE /api/entries/{entry}.{_format}`
+- [ ] `DELETE /api/entries/{entry}/tags/{tag}.{_format}`
+- [ ] `DELETE /api/tags/{tag}.{_format}`
+
+#### PATCH
+- [ ] `PATCH /api/entries/{entry}.{_format}`
+
