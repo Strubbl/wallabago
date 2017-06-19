@@ -24,3 +24,19 @@ func TestGetTagsOfEntry(t *testing.T) {
 func mockGetTagsOfEntry(url string, httpMethod string, postData []byte) []byte {
 	return []byte(tagsResult)
 }
+
+func TestGetTags(t *testing.T) {
+	expectedID := 57
+	expectedLabel := "android"
+	expectedSlug := "android"
+	tags := GetTags(mockGetTagsOfEntry)
+	if tags[1].ID != expectedID {
+		t.Errorf("expected id=%v, but got %v", expectedID, tags[1].ID)
+	}
+	if tags[1].Label != expectedLabel {
+		t.Errorf("expected label=%v, but got %v", expectedLabel, tags[1].Label)
+	}
+	if tags[1].Slug != expectedSlug {
+		t.Errorf("expected slug=%v, but got %v", expectedSlug, tags[1].Slug)
+	}
+}

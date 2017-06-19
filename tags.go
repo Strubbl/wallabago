@@ -24,3 +24,14 @@ func GetTagsOfEntry(bodyByteGetterFunc BodyByteGetter, articleID int) []Tag {
 	}
 	return tags
 }
+
+// GetTags queries the API for all tags in wallabag /tags
+func GetTags(bodyByteGetterFunc BodyByteGetter) []Tag {
+	tagsURL := Config.WallabagURL + "/api/tags"
+	body := bodyByteGetterFunc(tagsURL, "GET", nil)
+	var tags []Tag
+	if err := json.Unmarshal(body, &tags); err != nil {
+		fmt.Fprintf(os.Stderr, "GetTags: json unmarshal failed: %v\n", err)
+	}
+	return tags
+}
