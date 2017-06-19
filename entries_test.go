@@ -24,6 +24,6 @@ func TestGetEntries(t *testing.T) {
 	}
 }
 
-func mockGetBodyOfAPIURL(url string) []byte {
+func mockGetBodyOfAPIURL(url string, httpMethod string, postData []byte) []byte {
 	return []byte(oneEntry)
 }

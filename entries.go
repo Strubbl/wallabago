@@ -101,7 +101,7 @@ func GetEntries(bodyByteGetterFunc BodyByteGetter, archive int, starred int, sor
 	}
 
 	//log.Printf("getEntries: entriesURL=%s", entriesURL)
-	body := bodyByteGetterFunc(entriesURL)
+	body := bodyByteGetterFunc(entriesURL, "GET", nil)
 	//log.Printf("getEntries: body=\n%v\n", string(body))
 	var e Entries
 	if err := json.Unmarshal(body, &e); err != nil {
@@ -112,7 +112,7 @@ func GetEntries(bodyByteGetterFunc BodyByteGetter, archive int, starred int, sor
 
 // GetAllEntries calls GetEntries with no parameters, thus using the default values of the API request /entries and returning all articles, of course not all at once, but limitted to page through
 func GetAllEntries() Entries {
-	return GetEntries(GetBodyOfAPIURL, -1, -1, "", "", -1, -1, "")
+	return GetEntries(APICall, -1, -1, "", "", -1, -1, "")
 }
 
 // GetNumberOfTotalArticles returns the number of all articles saved in wallabag
@@ -122,12 +122,12 @@ func GetNumberOfTotalArticles() int {
 
 // GetNumberOfArchivedArticles returns the number of archived articles in wallabag
 func GetNumberOfArchivedArticles() int {
-	return GetEntries(GetBodyOfAPIURL, 1, -1, "", "", -1, -1, "").Total
+	return GetEntries(APICall, 1, -1, "", "", -1, -1, "").Total
 }
 
 // GetNumberOfStarredArticles returns the number of starred articles in wallabag (including unread and archived starred ones)
 func GetNumberOfStarredArticles() int {
-	return GetEntries(GetBodyOfAPIURL, -1, 1, "", "", -1, -1, "").Total
+	return GetEntries(APICall, -1, 1, "", "", -1, -1, "").Total
 }
 
 //PostEntry creates a new article in wallabag
@@ -144,6 +144,6 @@ func PostEntry(url, title, tags string, starred, archive int) {
 		fmt.Fprintf(os.Stderr, "PostEntry: json marshal of postData failed: %v\n", err)
 	}
 	entriesURL := Config.WallabagURL + "/api/entries.json"
-	body := postToAPI(entriesURL, postDataJSON)
+	body := APICall(entriesURL, "POST", postDataJSON)
 	fmt.Println("PostEntry: response:", string(body))
 }

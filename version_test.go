@@ -11,7 +11,7 @@ func TestVersion(t *testing.T) {
 	}
 }
 
-func mockGetBodyOfURL(url string) string {
+func mockGetBodyOfURL(url string, httpMethod string, postData []byte) string {
 	// return string with quotes
 	return `"2.2.3"`
 }
