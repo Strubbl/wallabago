@@ -30,7 +30,7 @@ Go wrapper for the [Wallabag](https://github.com/wallabag/wallabag/) API
 ### Status of the implementation of the API calls
 
 #### GET
-- [ ] `GET /api/annotations/{entry}.{_format}`
+- [x] `GET /api/annotations/{entry}.{_format}`
 - [x] `GET /api/entries.{_format}`
 - [x] `GET /api/entries/exists.{_format}`
 - [x] `GET /api/entries/{entry}.{_format}`
