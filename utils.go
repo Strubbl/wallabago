@@ -52,7 +52,7 @@ func APICall(apiURL string, httpMethod string, postData []byte) []byte {
 		fmt.Fprintf(os.Stderr, "APICall: error while ioutil.ReadAll %v\n", err)
 	}
 	if resp.StatusCode != http.StatusOK {
-		fmt.Printf("error while API call, status code not ok, but instead: %d %s", resp.StatusCode, resp.Status)
+		fmt.Printf("error while API call, status code not ok, but instead: %d %s\n", resp.StatusCode, resp.Status)
 	}
 	return body
 }

@@ -36,6 +36,9 @@ func getToken() Token {
 		fmt.Fprintf(os.Stderr, "getToken: getting token failed tokenURL=%s, err=%v\n", tokenURL, err)
 	}
 	defer resp.Body.Close()
+	if resp.StatusCode != http.StatusOK {
+		fmt.Fprintf(os.Stderr, "getToken: bad response from server: %v\n", resp.StatusCode)
+	}
 	body, err := ioutil.ReadAll(resp.Body)
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "getToken: error while ioutil.ReadAll %v\n", err)
@@ -58,5 +61,8 @@ func checkForToken() {
 // return a valid string to be used as an Authentication: header
 func GetAuthTokenHeader() string {
 	checkForToken()
+	if token.TokenType == "" || token.AccessToken == "" {
+		return ""
+	}
 	return strings.ToUpper(string(token.TokenType[0])) + token.TokenType[1:len(token.TokenType)] + " " + token.AccessToken
 }
