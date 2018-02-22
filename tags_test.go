@@ -9,7 +9,10 @@ func TestGetTagsOfEntry(t *testing.T) {
 	expectedID := 57
 	expectedLabel := "android"
 	expectedSlug := "android"
-	tags := GetTagsOfEntry(mockGetTagsOfEntry, articleID)
+	tags, err := GetTagsOfEntry(mockGetTagsOfEntry, articleID)
+	if err != nil {
+		t.Errorf("expected no error, but got %v", err)
+	}
 	if tags[1].ID != expectedID {
 		t.Errorf("expected id=%v, but got %v", expectedID, tags[1].ID)
 	}
@@ -29,7 +32,10 @@ func TestGetTags(t *testing.T) {
 	expectedID := 57
 	expectedLabel := "android"
 	expectedSlug := "android"
-	tags := GetTags(mockGetTagsOfEntry)
+	tags, err := GetTags(mockGetTagsOfEntry)
+	if err != nil {
+		t.Errorf("expected no error, but got %v", err)
+	}
 	if tags[1].ID != expectedID {
 		t.Errorf("expected id=%v, but got %v", expectedID, tags[1].ID)
 	}
