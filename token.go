@@ -6,7 +6,6 @@ import (
 	"io/ioutil"
 	"net/http"
 	"net/url"
-	"os"
 	"strings"
 )
 
@@ -23,7 +22,8 @@ type Token struct {
 
 // getToken will use the credentials set in the configuration to
 // request an access token from the wallabag API
-func getToken() Token {
+func getToken() (Token, error) {
+	var token Token
 	tokenURL := Config.WallabagURL + "/oauth/v2/token"
 	resp, err := http.PostForm(tokenURL,
 		url.Values{"grant_type": {"password"},
@@ -33,28 +33,27 @@ func getToken() Token {
 			"password":      {Config.UserPassword},
 		})
 	if err != nil {
-		fmt.Fprintf(os.Stderr, "getToken: getting token failed tokenURL=%s, err=%v\n", tokenURL, err)
+		return token, err
 	}
 	defer resp.Body.Close()
 	if resp.StatusCode != http.StatusOK {
-		fmt.Fprintf(os.Stderr, "getToken: bad response from server: %v\n", resp.StatusCode)
+		return token, fmt.Errorf("getToken: bad response from server: %v", resp.StatusCode)
 	}
 	body, err := ioutil.ReadAll(resp.Body)
 	if err != nil {
-		fmt.Fprintf(os.Stderr, "getToken: error while ioutil.ReadAll %v\n", err)
+		return token, err
 	}
 	//log.Printf("GetToken: body=%v\n", string(body))
-	var token Token
-	if err := json.Unmarshal(body, &token); err != nil {
-		fmt.Fprintf(os.Stderr, "getToken: getting token failed %s: %v\n", tokenURL, err)
-	}
-	return token
+	err = json.Unmarshal(body, &token)
+	return token, err
 }
 
-func checkForToken() {
+func checkForToken() error {
+	var err error
 	if token.TokenType == "" || token.AccessToken == "" {
-		token = getToken()
+		token, err = getToken()
 	}
+	return err
 }
 
 // GetAuthTokenHeader will make sure there's a working token and

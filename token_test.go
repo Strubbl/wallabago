@@ -19,7 +19,10 @@ func TestGetToken(t *testing.T) {
 		fmt.Fprintln(w, `{"access_token":"294hf92ufurjfgoiqjfioj4","refresh_token": "ZGE5MDg3ZTNjNmNkYTY0ZWZh","expires_in":3600,"scope": "null", "token_type": "bearer"}`)
 	})
 
-	token := getToken()
+	token, err := getToken()
+	if err != nil {
+		t.Errorf("expected no error, but got %v", err)
+	}
 	expectedToken := Token{"294hf92ufurjfgoiqjfioj4", 3600, "bearer", "null", "ZGE5MDg3ZTNjNmNkYTY0ZWZh"}
 	if token != expectedToken {
 		t.Errorf("TestGetToken(): expected %v, got %v", expectedToken, token)
