@@ -14,7 +14,8 @@ Go wrapper for the [Wallabag](https://github.com/wallabag/wallabag/) API
 
 ### Currently supported wallabag version
 
-2.2.1 - 2.2.3
+* wallago version 1.0.0 and before: compatible with wallabag 2.2.1 - 2.2.3
+* wallago version 2.0.0: tested only with wallabag 2.3.2
 
 
 ### Travis CI
