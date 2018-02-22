@@ -11,7 +11,10 @@ func TestGetEntries(t *testing.T) {
 	expectedTotal := 3494
 	expectedPage := 1
 	expectedPages := 3494
-	entries := GetEntries(mockGetOneEntry, 0, 0, "", "", 0, expectedLimit, "")
+	entries, err := GetEntries(mockGetOneEntry, 0, 0, "", "", 0, expectedLimit, "")
+	if err != nil {
+		t.Errorf("expected no error, but got %v", err)
+	}
 	if entries.Total != expectedTotal {
 		t.Errorf("expected %v entry, but got %v", expectedTotal, entries.Total)
 	}
@@ -33,7 +36,10 @@ func mockGetOneEntry(url string, httpMethod string, postData []byte) []byte {
 func TestGetEntriesExists(t *testing.T) {
 	urls := []string{"http://0.0.0.0/entry10", "http://0.0.0.0/entry2", "http://0.0.0.0/entry3"}
 	existsResult := []bool{false, false, true}
-	e := GetEntriesExists(mockGetEntriesExists, urls)
+	e, err := GetEntriesExists(mockGetEntriesExists, urls)
+	if err != nil {
+		t.Errorf("expected no error, but got %v", err)
+	}
 	for index := 0; index < len(urls); index++ {
 		if e[urls[index]] != existsResult[index] {
 			t.Errorf("for url %v expected exists=%v, but got %v", urls[index], e[urls[index]], existsResult[index])
@@ -49,7 +55,10 @@ func TestGetEntry(t *testing.T) {
 	expectedID := 3977
 	expectedIsArchived := 0
 	expectedTitle := "Datenschutz: \n        Freifunker m\u00fcssen erstmal keine Vorratsdaten speichern"
-	e := GetEntry(mockGetEntry, expectedID)
+	e, err := GetEntry(mockGetEntry, expectedID)
+	if err != nil {
+		t.Errorf("expected no error, but got %v", err)
+	}
 	if e.ID != expectedID {
 		t.Errorf("expected id=%v, but got %v", expectedID, e.ID)
 	}
