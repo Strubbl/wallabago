@@ -11,10 +11,7 @@ func TestGetEntries(t *testing.T) {
 	expectedTotal := 3494
 	expectedPage := 1
 	expectedPages := 3494
-	entries, err := GetEntries(mockGetOneEntry, 0, 0, "", "", 0, expectedLimit, "")
-	if err != nil {
-		t.Errorf("expected no error, but got %v", err)
-	}
+	entries, _ := GetEntries(mockGetOneEntry, 0, 0, "", "", 0, expectedLimit, "")
 	if entries.Total != expectedTotal {
 		t.Errorf("expected %v entry, but got %v", expectedTotal, entries.Total)
 	}
@@ -29,17 +26,14 @@ func TestGetEntries(t *testing.T) {
 	}
 }
 
-func mockGetOneEntry(url string, httpMethod string, postData []byte) []byte {
-	return []byte(oneEntry)
+func mockGetOneEntry(url string, httpMethod string, postData []byte) ([]byte, error) {
+	return []byte(oneEntry), nil
 }
 
 func TestGetEntriesExists(t *testing.T) {
 	urls := []string{"http://0.0.0.0/entry10", "http://0.0.0.0/entry2", "http://0.0.0.0/entry3"}
 	existsResult := []bool{false, false, true}
-	e, err := GetEntriesExists(mockGetEntriesExists, urls)
-	if err != nil {
-		t.Errorf("expected no error, but got %v", err)
-	}
+	e, _ := GetEntriesExists(mockGetEntriesExists, urls)
 	for index := 0; index < len(urls); index++ {
 		if e[urls[index]] != existsResult[index] {
 			t.Errorf("for url %v expected exists=%v, but got %v", urls[index], e[urls[index]], existsResult[index])
@@ -47,18 +41,15 @@ func TestGetEntriesExists(t *testing.T) {
 	}
 }
 
-func mockGetEntriesExists(url string, httpMethod string, postData []byte) []byte {
-	return []byte(entriesExists)
+func mockGetEntriesExists(url string, httpMethod string, postData []byte) ([]byte, error) {
+	return []byte(entriesExists), nil
 }
 
 func TestGetEntry(t *testing.T) {
 	expectedID := 3977
 	expectedIsArchived := 0
 	expectedTitle := "Datenschutz: \n        Freifunker m\u00fcssen erstmal keine Vorratsdaten speichern"
-	e, err := GetEntry(mockGetEntry, expectedID)
-	if err != nil {
-		t.Errorf("expected no error, but got %v", err)
-	}
+	e, _ := GetEntry(mockGetEntry, expectedID)
 	if e.ID != expectedID {
 		t.Errorf("expected id=%v, but got %v", expectedID, e.ID)
 	}
@@ -70,6 +61,6 @@ func TestGetEntry(t *testing.T) {
 	}
 }
 
-func mockGetEntry(url string, httpMethod string, postData []byte) []byte {
-	return []byte(oneItem)
+func mockGetEntry(url string, httpMethod string, postData []byte) ([]byte, error) {
+	return []byte(oneItem), nil
 }

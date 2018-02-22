@@ -14,18 +14,24 @@ type Tag struct {
 
 // GetTagsOfEntry queries the API for the tags of an article /entries/ID
 func GetTagsOfEntry(bodyByteGetterFunc BodyByteGetter, articleID int) ([]Tag, error) {
-	entryTagsURL := Config.WallabagURL + "/api/entries/" + strconv.Itoa(articleID) + "/tags.json"
-	body := bodyByteGetterFunc(entryTagsURL, "GET", nil)
 	var tags []Tag
-	err := json.Unmarshal(body, &tags)
+	entryTagsURL := Config.WallabagURL + "/api/entries/" + strconv.Itoa(articleID) + "/tags.json"
+	body, err := bodyByteGetterFunc(entryTagsURL, "GET", nil)
+	if err != nil {
+		return tags, err
+	}
+	err = json.Unmarshal(body, &tags)
 	return tags, err
 }
 
 // GetTags queries the API for all tags in wallabag /tags
 func GetTags(bodyByteGetterFunc BodyByteGetter) ([]Tag, error) {
-	tagsURL := Config.WallabagURL + "/api/tags"
-	body := bodyByteGetterFunc(tagsURL, "GET", nil)
 	var tags []Tag
-	err := json.Unmarshal(body, &tags)
+	tagsURL := Config.WallabagURL + "/api/tags"
+	body, err := bodyByteGetterFunc(tagsURL, "GET", nil)
+	if err != nil {
+		return tags, err
+	}
+	err = json.Unmarshal(body, &tags)
 	return tags, err
 }

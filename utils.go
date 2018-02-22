@@ -1,42 +1,43 @@
 package wallabago
 
 import (
-	"fmt"
 	"io/ioutil"
 	"log"
 	"net/http"
-	"os"
 	"strings"
 )
 
 // BodyStringGetter represents a function returning the body of an HTTP response as string
-type BodyStringGetter func(url string, httpMethod string, postData []byte) string
+type BodyStringGetter func(url string, httpMethod string, postData []byte) (string, error)
 
 // BodyByteGetter represents a function returning the body of an HTTP response as byte array
-type BodyByteGetter func(url string, httpMethod string, postData []byte) []byte
+type BodyByteGetter func(url string, httpMethod string, postData []byte) ([]byte, error)
 
 // makes a HTTP request and returns the HTML code of that URL
-func getBodyOfURL(url string) string {
+func getBodyOfURL(url string) (string, error) {
 	resp, err := http.Get(url)
 	if err != nil {
-		fmt.Fprintf(os.Stderr, "getBodyOfURL: %v\n", err)
+		log.Printf("getBodyOfURL: %v\n", err)
+		return "", err
 	}
 	defer resp.Body.Close()
 	b, err := ioutil.ReadAll(resp.Body)
 	if err != nil {
-		fmt.Fprintf(os.Stderr, "getBodyOfURL: reading %s: %v\n", url, err)
+		log.Printf("getBodyOfURL: reading %s: %v\n", url, err)
+		return "", err
 	}
 	log.Print(resp.Status)
-	//fmt.Printf("%s", b)
-	return string(b)
+	//log.Printf("%s", b)
+	return string(b), err
 }
 
 // APICall authenticates to wallabag instane before issuing the HTTP request
-func APICall(apiURL string, httpMethod string, postData []byte) []byte {
+func APICall(apiURL string, httpMethod string, postData []byte) ([]byte, error) {
 	client := &http.Client{}
 	req, err := http.NewRequest(httpMethod, apiURL, strings.NewReader(string(postData)))
 	if err != nil {
-		fmt.Fprintf(os.Stderr, "APICall: creating request failed with error: %v\n", err)
+		log.Printf("APICall: creating request failed with error: %v\n", err)
+		return nil, err
 	}
 	// auth
 	authString := GetAuthTokenHeader()
@@ -44,15 +45,18 @@ func APICall(apiURL string, httpMethod string, postData []byte) []byte {
 	// exec API request
 	resp, err := client.Do(req)
 	if err != nil {
-		fmt.Fprintf(os.Stderr, "APICall: error while getting response of our API request %v\n", err)
+		log.Printf("APICall: error while getting response of our API request %v\n", err)
+		return nil, err
 	}
 	defer resp.Body.Close()
 	body, err := ioutil.ReadAll(resp.Body)
 	if err != nil {
-		fmt.Fprintf(os.Stderr, "APICall: error while ioutil.ReadAll %v\n", err)
+		log.Printf("APICall: error while ioutil.ReadAll %v\n", err)
+		return nil, err
 	}
 	if resp.StatusCode != http.StatusOK {
-		fmt.Printf("error while API call, status code not ok, but instead: %d %s\n", resp.StatusCode, resp.Status)
+		log.Printf("error while API call, status code not ok, but instead: %d %s\n", resp.StatusCode, resp.Status)
+		return nil, err
 	}
-	return body
+	return body, err
 }

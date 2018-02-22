@@ -10,10 +10,7 @@ func TestGetAnnotations(t *testing.T) {
 	expectedText := "Anmerkung 1"
 	expectedQuote := "Bundesnetzagentur nicht zweifelsfrei"
 	expectedRangeStartOffset := 28
-	annos, err := GetAnnotations(mockGetAnnotations, articleID)
-	if err != nil {
-		t.Errorf("expected no error, but got %v", err)
-	}
+	annos, _ := GetAnnotations(mockGetAnnotations, articleID)
 	if annos.Total != expectedTotal {
 		t.Errorf("expected id=%v, but got %v", expectedTotal, annos.Total)
 	}
@@ -28,6 +25,6 @@ func TestGetAnnotations(t *testing.T) {
 	}
 }
 
-func mockGetAnnotations(url string, httpMethod string, postData []byte) []byte {
-	return []byte(annotationsResult)
+func mockGetAnnotations(url string, httpMethod string, postData []byte) ([]byte, error) {
+	return []byte(annotationsResult), nil
 }

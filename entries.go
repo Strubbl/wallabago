@@ -77,6 +77,7 @@ type Link struct {
 
 // GetEntries queries the API for articles according to the API request /entries
 func GetEntries(bodyByteGetterFunc BodyByteGetter, archive int, starred int, sort string, order string, page int, perPage int, tags string) (Entries, error) {
+	var e Entries
 	entriesURL := Config.WallabagURL + "/api/entries.json?"
 	if archive == 0 || archive == 1 {
 		entriesURL += "archive=" + strconv.Itoa(archive) + "&"
@@ -101,10 +102,12 @@ func GetEntries(bodyByteGetterFunc BodyByteGetter, archive int, starred int, sor
 	}
 
 	//log.Printf("getEntries: entriesURL=%s", entriesURL)
-	body := bodyByteGetterFunc(entriesURL, "GET", nil)
+	body, err := bodyByteGetterFunc(entriesURL, "GET", nil)
+	if err != nil {
+		return e, err
+	}
 	//log.Printf("getEntries: body=\n%v\n", string(body))
-	var e Entries
-	err := json.Unmarshal(body, &e)
+	err = json.Unmarshal(body, &e)
 	return e, err
 }
 
@@ -154,32 +157,38 @@ func PostEntry(url, title, tags string, starred, archive int) error {
 		return err
 	}
 	entriesURL := Config.WallabagURL + "/api/entries.json"
-	body := APICall(entriesURL, "POST", postDataJSON)
+	body, err := APICall(entriesURL, "POST", postDataJSON)
 	log.Println("PostEntry: response:", string(body))
-	return nil
+	return err
 }
 
 // GetEntriesExists queries the API for articles according to the API request /entries/exists
 // it checks if the urls in the given array exist
 // returns a map with the URL as key and the result as value
 func GetEntriesExists(bodyByteGetterFunc BodyByteGetter, urls []string) (map[string]bool, error) {
+	var m map[string]bool
 	entriesExistsURL := Config.WallabagURL + "/api/entries/exists.json?"
 	if len(urls) > 0 {
 		for i := 0; i < len(urls); i++ {
 			entriesExistsURL += "urls[]=" + urls[i] + "&"
 		}
 	}
-	body := bodyByteGetterFunc(entriesExistsURL, "GET", nil)
-	var m map[string]bool
-	err := json.Unmarshal(body, &m)
+	body, err := bodyByteGetterFunc(entriesExistsURL, "GET", nil)
+	if err != nil {
+		return m, err
+	}
+	err = json.Unmarshal(body, &m)
 	return m, err
 }
 
 // GetEntry queries the API for a specific article according to the API request /entries/ID
 func GetEntry(bodyByteGetterFunc BodyByteGetter, articleID int) (Item, error) {
-	entryURL := Config.WallabagURL + "/api/entries/" + strconv.Itoa(articleID) + ".json"
-	body := bodyByteGetterFunc(entryURL, "GET", nil)
 	var item Item
-	err := json.Unmarshal(body, &item)
+	entryURL := Config.WallabagURL + "/api/entries/" + strconv.Itoa(articleID) + ".json"
+	body, err := bodyByteGetterFunc(entryURL, "GET", nil)
+	if err != nil {
+		return item, err
+	}
+	err = json.Unmarshal(body, &item)
 	return item, err
 }
