@@ -10,7 +10,10 @@ func TestGetAnnotations(t *testing.T) {
 	expectedText := "Anmerkung 1"
 	expectedQuote := "Bundesnetzagentur nicht zweifelsfrei"
 	expectedRangeStartOffset := 28
-	annos := GetAnnotations(mockGetAnnotations, articleID)
+	annos, err := GetAnnotations(mockGetAnnotations, articleID)
+	if err != nil {
+		t.Errorf("expected no error, but got %v", err)
+	}
 	if annos.Total != expectedTotal {
 		t.Errorf("expected id=%v, but got %v", expectedTotal, annos.Total)
 	}

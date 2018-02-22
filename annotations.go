@@ -2,8 +2,6 @@ package wallabago
 
 import (
 	"encoding/json"
-	"fmt"
-	"os"
 	"strconv"
 )
 
@@ -33,12 +31,10 @@ type Range struct {
 }
 
 // GetAnnotations queries the API for all annotations of an article according to /api/annotations/ID
-func GetAnnotations(bodyByteGetterFunc BodyByteGetter, articleID int) Annotations {
+func GetAnnotations(bodyByteGetterFunc BodyByteGetter, articleID int) (Annotations, error) {
 	annoURL := Config.WallabagURL + "/api/annotations/" + strconv.Itoa(articleID) + ".json"
 	body := bodyByteGetterFunc(annoURL, "GET", nil)
 	var annotations Annotations
-	if err := json.Unmarshal(body, &annotations); err != nil {
-		fmt.Fprintf(os.Stderr, "GetAnnotations: json unmarshal failed: %v\n", err)
-	}
-	return annotations
+	err := json.Unmarshal(body, &annotations)
+	return annotations, err
 }
