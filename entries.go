@@ -111,14 +111,36 @@ func GetEntries(bodyByteGetterFunc BodyByteGetter, archive int, starred int, sor
 	return e, err
 }
 
-// GetAllEntries calls GetEntries with no parameters, thus using the default values of the API request /entries and returning all articles, of course not all at once, but limitted to page through
-func GetAllEntries() (Entries, error) {
-	return GetEntries(APICall, -1, -1, "", "", -1, -1, "")
+// GetAllEntries calls GetEntries with no parameters, thus using the default values of the API request /entries and returning all articles as []wallabago.Item
+func GetAllEntries() ([]Item, error) {
+	var allEntries []Item
+	page := -1
+	perPage := -1
+	e, err := GetEntries(APICall, -1, -1, "", "", page, perPage, "")
+	if err != nil {
+		return nil, err
+	}
+	allEntries = e.Embedded.Items
+	log.Printf("GetAllEntries: len(allEntries)=%d e.Total=%d", len(allEntries), e.Total)
+	if e.Total > len(allEntries) {
+		page = e.Page + 1 // increase by one cause we already have first page of entries
+		perPage = e.Limit
+		pages := e.Pages
+		for i := page; i <= pages; i++ {
+			e, err := GetEntries(APICall, -1, -1, "", "", page, perPage, "")
+			if err != nil {
+				return nil, err
+			}
+			tmpAllEntries := e.Embedded.Items
+			allEntries = append(allEntries, tmpAllEntries...)
+		}
+	}
+	return allEntries, err
 }
 
 // GetNumberOfTotalArticles returns the number of all articles saved in wallabag
 func GetNumberOfTotalArticles() (int, error) {
-	e, err := GetAllEntries()
+	e, err := GetEntries(APICall, -1, -1, "", "", -1, -1, "")
 	if err != nil {
 		return -1, err
 	}
