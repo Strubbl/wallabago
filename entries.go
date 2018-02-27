@@ -106,29 +106,29 @@ func GetEntries(bodyByteGetterFunc BodyByteGetter, archive int, starred int, sor
 	if err != nil {
 		return e, err
 	}
-	//log.Printf("getEntries: body=\n%v\n", string(body))
+	//log.Printf("getEntries: body=\n%v\n\n\n\n", string(body))
 	err = json.Unmarshal(body, &e)
 	return e, err
 }
 
 // GetAllEntries calls GetEntries with no parameters, thus using the default values of the API request /entries and returning all articles as []wallabago.Item
 func GetAllEntries() ([]Item, error) {
-	var allEntries []Item
 	page := -1
 	perPage := -1
 	e, err := GetEntries(APICall, -1, -1, "", "", page, perPage, "")
 	if err != nil {
+		log.Println("GetAllEntries: first GetEntries call failed", err)
 		return nil, err
 	}
-	allEntries = e.Embedded.Items
-	log.Printf("GetAllEntries: len(allEntries)=%d e.Total=%d", len(allEntries), e.Total)
+	allEntries := e.Embedded.Items
 	if e.Total > len(allEntries) {
-		page = e.Page + 1 // increase by one cause we already have first page of entries
+		secondPage := e.Page + 1
 		perPage = e.Limit
 		pages := e.Pages
-		for i := page; i <= pages; i++ {
-			e, err := GetEntries(APICall, -1, -1, "", "", page, perPage, "")
+		for i := secondPage; i <= pages; i++ {
+			e, err := GetEntries(APICall, -1, -1, "", "", i, perPage, "")
 			if err != nil {
+				log.Printf("GetAllEntries: GetEntries for page %d failed: %v", i, err)
 				return nil, err
 			}
 			tmpAllEntries := e.Embedded.Items
