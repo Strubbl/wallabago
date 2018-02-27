@@ -24,10 +24,10 @@ type Annotation struct {
 
 // Range represents the text borders of an annotation
 type Range struct {
-	End         string `json:"end"`
-	EndOffset   int    `json:"endOffset"`
-	Start       string `json:"start"`
-	StartOffset int    `json:"startOffset"`
+	End         string      `json:"end"`
+	EndOffset   interface{} `json:"endOffset"`
+	Start       string      `json:"start"`
+	StartOffset interface{} `json:"startOffset"`
 }
 
 // GetAnnotations queries the API for all annotations of an article according to /api/annotations/ID
