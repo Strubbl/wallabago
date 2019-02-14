@@ -25,21 +25,25 @@ type Embedded struct {
 
 // Item represents individual items in API responses
 type Item struct {
-	Links       Links        `json:"_links"`
-	Annotations []Annotation `json:"annotations"`
-	CreatedAt   WallabagTime `json:"created_at"`
-	DomainName  string       `json:"domain_name"`
-	ID          int          `json:"id"`
-	IsArchived  int          `json:"is_archived"`
-	IsStarred   int          `json:"is_starred"`
-	Mimetype    string       `json:"mimetype"`
-	ReadingTime int          `json:"reading_time"`
-	Tags        []Tag        `json:"tags"`
-	Title       string       `json:"title"`
-	UpdatedAt   WallabagTime `json:"updated_at"`
-	UserEmail   string       `json:"user_email"`
-	UserID      int          `json:"user_id"`
-	UserName    string       `json:"user_name"`
+	Links          Links        `json:"_links"`
+	Annotations    []Annotation `json:"annotations"`
+	CreatedAt      WallabagTime `json:"created_at"`
+	Content        string       `json:"content"`
+	DomainName     string       `json:"domain_name"`
+	ID             int          `json:"id"`
+	IsArchived     int          `json:"is_archived"`
+	IsStarred      int          `json:"is_starred"`
+	Language       string       `json:"language"`
+	Mimetype       string       `json:"mimetype"`
+	PreviewPicture string       `json:"preview_picture"`
+	ReadingTime    int          `json:"reading_time"`
+	Tags           []Tag        `json:"tags"`
+	Title          string       `json:"title"`
+	UpdatedAt      WallabagTime `json:"updated_at"`
+	URL            string       `json:"url"`
+	UserEmail      string       `json:"user_email"`
+	UserID         int          `json:"user_id"`
+	UserName       string       `json:"user_name"`
 }
 
 // WallabagTimeLayout is a variation of RFC3339 but without colons in
