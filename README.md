@@ -1,6 +1,6 @@
 # wallabago
 
-Go wrapper for the [Wallabag](https://github.com/wallabag/wallabag/) API
+Go wrapper library for the [Wallabag](https://github.com/wallabag/wallabag/) API
 
 
 ## Links
@@ -60,3 +60,8 @@ Go wrapper for the [Wallabag](https://github.com/wallabag/wallabag/) API
 - [ ] `PATCH /api/entries/{entry}.{_format}`
 - [ ] `PATCH /api/entries/{entry}/reload.{_format}`
 
+## Projects using wallabago
+
+* [wallabako](https://gitlab.com/anarcat/wallabako) - wallabag client for Kobo readers
+* [wallabag-stats](https://gitlab.com/Strubbl/wallabag-stats) - draws a chart for unread and total articles in your wallabag instance
+* [wallabag-add-article](https://gitlab.com/Strubbl/wallabag-add-article) - commandline utility to add an article to wallabag
