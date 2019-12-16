@@ -39,8 +39,6 @@ type tokenResponse struct {
 // parseTokenResponse consumes a stream (typically a http.Response.Body) that
 // is expected to contain JSON that unmarshals into a tokenResponse struct
 func parseTokenResponse(reader io.ReadCloser) (*tokenResponse, error) {
-	defer reader.Close()
-
 	var tokenResponse tokenResponse
 	err := json.NewDecoder(reader).Decode(&tokenResponse)
 	if err != nil {
@@ -87,6 +85,7 @@ func getToken() (*tokenResponse, error) {
 			"getToken: bad response from server: %v", resp.StatusCode)
 	}
 
+	defer resp.Body.Close()
 	return parseTokenResponse(resp.Body)
 }
 
@@ -115,6 +114,7 @@ func refreshToken() (*tokenResponse, error) {
 			"refreshToken: bad response from server: %v", resp.StatusCode)
 	}
 
+	defer resp.Body.Close()
 	return parseTokenResponse(resp.Body)
 }
 
