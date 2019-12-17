@@ -40,8 +40,13 @@ func APICall(apiURL string, httpMethod string, postData []byte) ([]byte, error) 
 		return nil, err
 	}
 	// auth
-	authString := GetAuthTokenHeader()
+	authString, err := GetAuthTokenHeader()
+	if err != nil {
+		return nil, err
+	}
+
 	req.Header.Add("Authorization", authString)
+	req.Header.Add("Content-Type", "application/json")
 	// exec API request
 	resp, err := client.Do(req)
 	if err != nil {
