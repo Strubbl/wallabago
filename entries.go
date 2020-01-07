@@ -218,3 +218,13 @@ func GetEntry(bodyByteGetterFunc BodyByteGetter, articleID int) (Item, error) {
 	err = json.Unmarshal(body, &item)
 	return item, err
 }
+
+// ExportEntry queries the API to retrieve a single entry in a predefined format according to the API request /entries/ID/export.FORMAT
+func ExportEntry(bodyByteGetterFunc BodyByteGetter, articleID int, format string) ([]byte, error) {
+	entryURL := Config.WallabagURL + "/api/entries/" + strconv.Itoa(articleID) + "/export." + format
+	body, err := bodyByteGetterFunc(entryURL, "GET", nil)
+	if err != nil {
+		return nil, err
+	}
+	return body, err
+}
