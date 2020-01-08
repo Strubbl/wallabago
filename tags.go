@@ -35,3 +35,10 @@ func GetTags(bodyByteGetterFunc BodyByteGetter) ([]Tag, error) {
 	err = json.Unmarshal(body, &tags)
 	return tags, err
 }
+
+// DeleteEntryTag removes a tag from an entry
+func DeleteEntryTag(entry int, tag int) error {
+	url := Config.WallabagURL + "/api/entries/" + strconv.Itoa(entry) + "/tags/" + strconv.Itoa(tag) + ".json"
+	_, err := APICall(url, "DELETE", nil)
+	return err
+}
