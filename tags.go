@@ -3,6 +3,7 @@ package wallabago
 import (
 	"encoding/json"
 	"strconv"
+	"strings"
 )
 
 // Tag represents one tag with its properties
@@ -34,4 +35,20 @@ func GetTags(bodyByteGetterFunc BodyByteGetter) ([]Tag, error) {
 	}
 	err = json.Unmarshal(body, &tags)
 	return tags, err
+}
+
+// AddEntryTags add tags to an entry
+func AddEntryTags(entry int, tags ...string) error {
+	url := Config.WallabagURL + "/api/entries/" + strconv.Itoa(entry) + "/tags.json"
+
+	data := map[string]string{
+		"tags": strings.Join(tags, ","),
+	}
+	jsonData, err := json.Marshal(data)
+	if err != nil {
+		return err
+	}
+
+	_, err = APICall(url, "POST", jsonData)
+	return err
 }
