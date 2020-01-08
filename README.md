@@ -36,7 +36,7 @@ Go wrapper library for the [Wallabag](https://github.com/wallabag/wallabag/) API
 - [x] `GET /api/entries.{_format}`
 - [x] `GET /api/entries/exists.{_format}`
 - [x] `GET /api/entries/{entry}.{_format}`
-- [ ] `GET /api/entries/{entry}/export.{_format}`
+- [x] `GET /api/entries/{entry}/export.{_format}`
 - [x] `GET /api/entries/{entry}/tags.{_format}`
 - [x] `GET /api/tags.{_format}`
 - [x] `GET /api/version.{_format}`
@@ -44,7 +44,7 @@ Go wrapper library for the [Wallabag](https://github.com/wallabag/wallabag/) API
 #### POST
 - [ ] `POST /api/annotations/{entry}.{_format}`
 - [x] `POST /api/entries.{_format}`
-- [ ] `POST /api/entries/{entry}/tags.{_format}`
+- [x] `POST /api/entries/{entry}/tags.{_format}`
 
 #### PUT
 - [ ] `PUT /api/annotations/{annotation}.{_format}`
@@ -52,7 +52,7 @@ Go wrapper library for the [Wallabag](https://github.com/wallabag/wallabag/) API
 #### DELETE
 - [ ] `DELETE /api/annotations/{annotation}.{_format}`
 - [ ] `DELETE /api/entries/{entry}.{_format}`
-- [ ] `DELETE /api/entries/{entry}/tags/{tag}.{_format}`
+- [x] `DELETE /api/entries/{entry}/tags/{tag}.{_format}`
 - [ ] `DELETE /api/tag/label.{_format}`
 - [ ] `DELETE /api/tags/label.{_format}`
 - [ ] `DELETE /api/tags/{tag}.{_format}`
