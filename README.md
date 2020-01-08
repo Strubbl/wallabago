@@ -7,7 +7,8 @@ Go wrapper library for the [Wallabag](https://github.com/wallabag/wallabag/) API
 
 - http://wallabag.org/
 - https://github.com/wallabag/wallabag/
-- http://doc.wallabag.org/en/master/developer/api.html
+- https://doc.wallabag.org/en/developer/api/readme.html
+- https://app.wallabag.it/api/doc
 
 
 ## Project Status
