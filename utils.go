@@ -5,6 +5,7 @@ import (
 	"log"
 	"net/http"
 	"strings"
+	"time"
 )
 
 // BodyStringGetter represents a function returning the body of an HTTP response as string
@@ -64,4 +65,15 @@ func APICall(apiURL string, httpMethod string, postData []byte) ([]byte, error) 
 		return nil, err
 	}
 	return body, err
+}
+
+// WallabagTimeToTime returns a time.Time object of a given WallabagTime
+func WallabagTimeToTime(t WallabagTime) (time.Time, error) {
+	s := t.String()
+	goTime, err := time.Parse(WallabagTimeLayout, s)
+	if err != nil {
+		goTime = time.Time{}
+		return goTime, err
+	}
+	return goTime, err
 }
