@@ -43,7 +43,7 @@ type Item struct {
 	OriginURL      string       `json:"origin_url"`
 	PreviewPicture string       `json:"preview_picture"`
 	PublishedAt    WallabagTime `json:"published_at"`
-	PublishedBy    string       `json:"published_by"`
+	PublishedBy    []string       `json:"published_by"`
 	ReadingTime    int          `json:"reading_time"`
 	StarredAt      WallabagTime `json:"starred_at"`
 	Tags           []Tag        `json:"tags"`
