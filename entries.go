@@ -95,6 +95,7 @@ type Link struct {
 
 // GetEntries queries the API for articles according to the API request /entries
 func GetEntries(bodyByteGetterFunc BodyByteGetter, archive int, starred int, sort string, order string, page int, perPage int, tags string) (Entries, error) {
+	//TODO API now supports since, public and detail as additional parameters
 	var e Entries
 	entriesURL := Config.WallabagURL + "/api/entries.json?"
 	if archive == 0 || archive == 1 {
@@ -103,7 +104,7 @@ func GetEntries(bodyByteGetterFunc BodyByteGetter, archive int, starred int, sor
 	if starred == 0 || starred == 1 {
 		entriesURL += "starred=" + strconv.Itoa(starred) + "&"
 	}
-	if sort == "created" || sort == "updated" {
+	if sort == "created" || sort == "updated" || sort == "archived" {
 		entriesURL += "sort=" + sort + "&"
 	}
 	if order == "asc" || order == "desc" {
