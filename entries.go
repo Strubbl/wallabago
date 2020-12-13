@@ -68,12 +68,16 @@ type WallabagTime struct {
 // UnmarshalJSON parses the custom date format wallabag returns
 func (t *WallabagTime) UnmarshalJSON(buf []byte) (err error) {
 	s := strings.Trim(string(buf), `"`)
+	if s == "null" {
+		t.Time = time.Time{}
+		return err
+	}
 	t.Time, err = time.Parse(WallabagTimeLayout, s)
 	if err != nil {
 		t.Time = time.Time{}
-		return
+		return err
 	}
-	return
+	return err
 }
 
 // Links contains four links (self, first, last, next), being part of the Entries object
