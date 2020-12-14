@@ -68,3 +68,4 @@ Go wrapper library for the [Wallabag](https://github.com/wallabag/wallabag/) API
 * [wallabako](https://gitlab.com/anarcat/wallabako) - wallabag client for Kobo readers
 * [wallabag-stats](https://gitlab.com/Strubbl/wallabag-stats) - draws a chart for unread and total articles in your wallabag instance
 * [wallabag-add-article](https://gitlab.com/Strubbl/wallabag-add-article) - commandline utility to add an article to wallabag
+* [wallabag_import_pocket_tags](https://github.com/pbarry/wallabag_import_pocket_tags) - commandline utility to copy tags from an export of Pocket articles to your Wallabag articles
