@@ -40,19 +40,28 @@ Go wrapper library for the [Wallabag](https://github.com/wallabag/wallabag/) API
 - [x] `GET /api/entries/{entry}.{_format}`
 - [x] `GET /api/entries/{entry}/export.{_format}`
 - [x] `GET /api/entries/{entry}/tags.{_format}`
+- [ ] `GET /api/info.{_format}`
+- [ ] `GET /api/search.{_format}`
+- [ ] `GET /api/taggingrule/export.{_format}`
 - [x] `GET /api/tags.{_format}`
-- [x] `GET /api/version.{_format}`
+- [ ] `GET /api/user.{_format}`
+- [x] `GET /api/version.{_format}` DEPRECATED by wallabag server 2.4
 
 #### POST
 - [ ] `POST /api/annotations/{entry}.{_format}`
 - [x] `POST /api/entries.{_format}`
+- [ ] `POST /api/entries/lists.{_format}`
+- [ ] `POST /api/entries/tags/lists.{_format}`
 - [x] `POST /api/entries/{entry}/tags.{_format}`
 
 #### PUT
 - [ ] `PUT /api/annotations/{annotation}.{_format}`
+- [ ] `PUT /api/user.{_format}`
 
 #### DELETE
 - [ ] `DELETE /api/annotations/{annotation}.{_format}`
+- [ ] `DELETE /api/entries/list.{_format}`
+- [ ] `DELETE /api/entries/tags/list.{_format}`
 - [ ] `DELETE /api/entries/{entry}.{_format}`
 - [x] `DELETE /api/entries/{entry}/tags/{tag}.{_format}`
 - [ ] `DELETE /api/tag/label.{_format}`
