@@ -25,35 +25,35 @@ type Embedded struct {
 
 // Item represents individual items in API responses
 type Item struct {
-	Links          Links        `json:"_links"`
-	Annotations    []Annotation `json:"annotations"`
-	ArchivedAt     *WallabagTime `json:"archived_at"`
-	CreatedAt      *WallabagTime `json:"created_at"`
-	Content        string       `json:"content"`
-	DomainName     string       `json:"domain_name"`
-	GivenURL       string       `json:"given_url"`
-	HashedGivenURL string       `json:"hashed_given_url"`
-	HashedURL      string       `json:"hashed_url"`
-	ID             int          `json:"id"`
-	IsArchived     int          `json:"is_archived"`
-	IsPublic       bool         `json:"is_public"`
-	IsStarred      int          `json:"is_starred"`
-	Language       string       `json:"language"`
-	Mimetype       string       `json:"mimetype"`
-	OriginURL      string       `json:"origin_url"`
-	PreviewPicture string       `json:"preview_picture"`
-	PublishedAt    *WallabagTime `json:"published_at"`
+	Links          Links           `json:"_links"`
+	Annotations    []Annotation    `json:"annotations"`
+	ArchivedAt     *WallabagTime   `json:"archived_at"`
+	CreatedAt      *WallabagTime   `json:"created_at"`
+	Content        string          `json:"content"`
+	DomainName     string          `json:"domain_name"`
+	GivenURL       string          `json:"given_url"`
+	HashedGivenURL string          `json:"hashed_given_url"`
+	HashedURL      string          `json:"hashed_url"`
+	ID             int             `json:"id"`
+	IsArchived     int             `json:"is_archived"`
+	IsPublic       bool            `json:"is_public"`
+	IsStarred      int             `json:"is_starred"`
+	Language       string          `json:"language"`
+	Mimetype       string          `json:"mimetype"`
+	OriginURL      string          `json:"origin_url"`
+	PreviewPicture string          `json:"preview_picture"`
+	PublishedAt    *WallabagTime   `json:"published_at"`
 	PublishedBy    json.RawMessage `json:"published_by"`
-	ReadingTime    int          `json:"reading_time"`
-	StarredAt      *WallabagTime `json:"starred_at"`
-	Tags           []Tag        `json:"tags"`
-	Title          string       `json:"title"`
-	UID            string       `json:"uid"`
-	UpdatedAt      *WallabagTime `json:"updated_at"`
-	URL            string       `json:"url"`
-	UserEmail      string       `json:"user_email"`
-	UserID         int          `json:"user_id"`
-	UserName       string       `json:"user_name"`
+	ReadingTime    int             `json:"reading_time"`
+	StarredAt      *WallabagTime   `json:"starred_at"`
+	Tags           []Tag           `json:"tags"`
+	Title          string          `json:"title"`
+	UID            string          `json:"uid"`
+	UpdatedAt      *WallabagTime   `json:"updated_at"`
+	URL            string          `json:"url"`
+	UserEmail      string          `json:"user_email"`
+	UserID         int             `json:"user_id"`
+	UserName       string          `json:"user_name"`
 }
 
 // WallabagTimeLayout is a variation of RFC3339 but without colons in
@@ -135,6 +135,52 @@ func GetAllEntries() ([]Item, error) {
 	page := -1
 	perPage := -1
 	e, err := GetEntries(APICall, -1, -1, "", "", page, perPage, "")
+	if err != nil {
+		log.Println("GetAllEntries: first GetEntries call failed", err)
+		return nil, err
+	}
+	allEntries := e.Embedded.Items
+	if e.Total > len(allEntries) {
+		secondPage := e.Page + 1
+		perPage = e.Limit
+		pages := e.Pages
+		for i := secondPage; i <= pages; i++ {
+			e, err := GetEntries(APICall, -1, -1, "", "", i, perPage, "")
+			if err != nil {
+				log.Printf("GetAllEntries: GetEntries for page %d failed: %v", i, err)
+				return nil, err
+			}
+			tmpAllEntries := e.Embedded.Items
+			allEntries = append(allEntries, tmpAllEntries...)
+		}
+	}
+	return allEntries, err
+}
+
+// GetAllEntriesFiltered calls GetEntries with the given archive and starred parameters parameters, thus returning all articles as []wallabago.Item which match the filter
+func GetAllEntriesFiltered(archive, starred *bool) ([]Item, error) {
+	archiveInt := -1
+	if archive != nil {
+		switch *archive {
+		case true:
+			archiveInt = 1
+		case false:
+			archiveInt = 0
+		}
+	}
+	starredInt := -1
+	if starred != nil {
+		switch *starred {
+		case true:
+			starredInt = 1
+		case false:
+			starredInt = 0
+		}
+	}
+
+	page := -1
+	perPage := -1
+	e, err := GetEntries(APICall, archiveInt, starredInt, "", "", page, perPage, "")
 	if err != nil {
 		log.Println("GetAllEntries: first GetEntries call failed", err)
 		return nil, err

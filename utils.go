@@ -15,7 +15,7 @@ type BodyByteGetter func(url string, httpMethod string, postData []byte) ([]byte
 
 // makes a HTTP request and returns the HTML code of that URL
 func getBodyOfURL(url string) (string, error) {
-	resp, err := http.Get(url)
+	resp, err := HttpClient.Get(url)
 	if err != nil {
 		log.Printf("getBodyOfURL: %v\n", err)
 		return "", err
@@ -33,7 +33,6 @@ func getBodyOfURL(url string) (string, error) {
 
 // APICall authenticates to wallabag instane before issuing the HTTP request
 func APICall(apiURL string, httpMethod string, postData []byte) ([]byte, error) {
-	client := &http.Client{}
 	req, err := http.NewRequest(httpMethod, apiURL, strings.NewReader(string(postData)))
 	if err != nil {
 		log.Printf("APICall: creating request failed with error: %v\n", err)
@@ -48,7 +47,7 @@ func APICall(apiURL string, httpMethod string, postData []byte) ([]byte, error) 
 	req.Header.Add("Authorization", authString)
 	req.Header.Add("Content-Type", "application/json")
 	// exec API request
-	resp, err := client.Do(req)
+	resp, err := HttpClient.Do(req)
 	if err != nil {
 		log.Printf("APICall: error while getting response of our API request %v\n", err)
 		return nil, err

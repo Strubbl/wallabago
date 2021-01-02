@@ -12,6 +12,8 @@ import (
 
 var token *Token
 
+var HttpClient = &http.Client{}
+
 func setToken(newToken *Token) {
 	token = newToken
 }
@@ -68,7 +70,7 @@ func responseToToken(tokenResponse *tokenResponse) *Token {
 // request an access token from the wallabag API
 func getToken() (*tokenResponse, error) {
 	tokenURL := Config.WallabagURL + "/oauth/v2/token"
-	resp, err := http.PostForm(tokenURL,
+	resp, err := HttpClient.PostForm(tokenURL,
 		url.Values{
 			"grant_type":    {"password"},
 			"client_id":     {Config.ClientID},
@@ -98,7 +100,7 @@ func refreshToken() (*tokenResponse, error) {
 	}
 
 	tokenURL := Config.WallabagURL + "/oauth/v2/token"
-	resp, err := http.PostForm(tokenURL,
+	resp, err := HttpClient.PostForm(tokenURL,
 		url.Values{
 			"grant_type":    {"refresh_token"},
 			"client_id":     {Config.ClientID},
