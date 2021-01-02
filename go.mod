@@ -1,3 +1,3 @@
-module github.com/Strubbl/wallabago/v6
+module github.com/simonfrey/wallabago
 
 go 1.15
