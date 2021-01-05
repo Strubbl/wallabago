@@ -191,7 +191,7 @@ func GetAllEntriesFiltered(archive, starred *bool) ([]Item, error) {
 		perPage = e.Limit
 		pages := e.Pages
 		for i := secondPage; i <= pages; i++ {
-			e, err := GetEntries(APICall, -1, -1, "", "", i, perPage, "")
+			e, err := GetEntries(APICall, archiveInt, starredInt, "", "", i, perPage, "")
 			if err != nil {
 				log.Printf("GetAllEntries: GetEntries for page %d failed: %v", i, err)
 				return nil, err
