@@ -157,52 +157,6 @@ func GetAllEntries() ([]Item, error) {
 	return allEntries, err
 }
 
-// GetAllEntriesFiltered calls GetEntries with the given archive and starred parameters parameters, thus returning all articles as []wallabago.Item which match the filter
-func GetAllEntriesFiltered(archive, starred *bool) ([]Item, error) {
-	archiveInt := -1
-	if archive != nil {
-		switch *archive {
-		case true:
-			archiveInt = 1
-		case false:
-			archiveInt = 0
-		}
-	}
-	starredInt := -1
-	if starred != nil {
-		switch *starred {
-		case true:
-			starredInt = 1
-		case false:
-			starredInt = 0
-		}
-	}
-
-	page := -1
-	perPage := -1
-	e, err := GetEntries(APICall, archiveInt, starredInt, "", "", page, perPage, "")
-	if err != nil {
-		log.Println("GetAllEntries: first GetEntries call failed", err)
-		return nil, err
-	}
-	allEntries := e.Embedded.Items
-	if e.Total > len(allEntries) {
-		secondPage := e.Page + 1
-		perPage = e.Limit
-		pages := e.Pages
-		for i := secondPage; i <= pages; i++ {
-			e, err := GetEntries(APICall, archiveInt, starredInt, "", "", i, perPage, "")
-			if err != nil {
-				log.Printf("GetAllEntries: GetEntries for page %d failed: %v", i, err)
-				return nil, err
-			}
-			tmpAllEntries := e.Embedded.Items
-			allEntries = append(allEntries, tmpAllEntries...)
-		}
-	}
-	return allEntries, err
-}
-
 // GetNumberOfTotalArticles returns the number of all articles saved in wallabag
 func GetNumberOfTotalArticles() (int, error) {
 	e, err := GetEntries(APICall, -1, -1, "", "", -1, -1, "")
