@@ -27,8 +27,8 @@ type Embedded struct {
 type Item struct {
 	Links          Links        `json:"_links"`
 	Annotations    []Annotation `json:"annotations"`
-	ArchivedAt     WallabagTime `json:"archived_at"`
-	CreatedAt      WallabagTime `json:"created_at"`
+	ArchivedAt     *WallabagTime `json:"archived_at"`
+	CreatedAt      *WallabagTime `json:"created_at"`
 	Content        string       `json:"content"`
 	DomainName     string       `json:"domain_name"`
 	GivenURL       string       `json:"given_url"`
@@ -42,14 +42,14 @@ type Item struct {
 	Mimetype       string       `json:"mimetype"`
 	OriginURL      string       `json:"origin_url"`
 	PreviewPicture string       `json:"preview_picture"`
-	PublishedAt    WallabagTime `json:"published_at"`
+	PublishedAt    *WallabagTime `json:"published_at"`
 	PublishedBy    []string       `json:"published_by"`
 	ReadingTime    int          `json:"reading_time"`
-	StarredAt      WallabagTime `json:"starred_at"`
+	StarredAt      *WallabagTime `json:"starred_at"`
 	Tags           []Tag        `json:"tags"`
 	Title          string       `json:"title"`
 	UID            string       `json:"uid"`
-	UpdatedAt      WallabagTime `json:"updated_at"`
+	UpdatedAt      *WallabagTime `json:"updated_at"`
 	URL            string       `json:"url"`
 	UserEmail      string       `json:"user_email"`
 	UserID         int          `json:"user_id"`
