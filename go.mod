@@ -1,3 +1,3 @@
-module github.com/Strubbl/wallabago/v6
+module github.com/Strubbl/wallabago/v7
 
-go 1.15
+go 1.18
