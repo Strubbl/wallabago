@@ -22,11 +22,6 @@ Go wrapper library for the [Wallabag](https://github.com/wallabag/wallabag/) API
 * wallago version 7.0.2 until latest version: tested only with wallabag 2.4.3
 
 
-### Travis CI
-
-[![Build Status](https://travis-ci.org/Strubbl/wallabago.svg?branch=master)](https://travis-ci.org/Strubbl/wallabago)
-
-
 ### Go Report Card
 
 [![Go Report Card Badge](https://goreportcard.com/badge/github.com/Strubbl/wallabago)](https://goreportcard.com/report/github.com/Strubbl/wallabago)
