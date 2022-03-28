@@ -18,7 +18,8 @@ Go wrapper library for the [Wallabag](https://github.com/wallabag/wallabag/) API
 * wallago version 1.0.0 and before: compatible with wallabag 2.2.1 - 2.2.3
 * wallago version 2.0.0: tested only with wallabag 2.3.2
 * wallago version 4.0.0 until 5.1.0: tested only with wallabag 2.3.8
-* wallago version 6.0.0 until latest version: tested only with wallabag 2.4.0
+* wallago version 6.0.0 until 6.0.6: tested only with wallabag 2.4.0 - 2.4.3
+* wallago version 7.0.2 until latest version: tested only with wallabag 2.4.3
 
 
 ### Travis CI
