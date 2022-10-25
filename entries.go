@@ -199,7 +199,7 @@ func PostEntry(url, title, tags string, starred, archive int) error {
 	}
 	entriesURL := Config.WallabagURL + "/api/entries.json"
 	body, err := APICall(entriesURL, "POST", postDataJSON)
-	log.Println("PostEntry: response:", string(body))
+	//log.Println("PostEntry: response:", string(body))
 	return err
 }
 

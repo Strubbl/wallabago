@@ -26,7 +26,7 @@ func getBodyOfURL(url string) (string, error) {
 		log.Printf("getBodyOfURL: reading %s: %v\n", url, err)
 		return "", err
 	}
-	log.Print(resp.Status)
+	//log.Print(resp.Status)
 	//log.Printf("%s", b)
 	return string(b), err
 }
