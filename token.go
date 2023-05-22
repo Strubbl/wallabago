@@ -6,8 +6,10 @@ import (
 	"io"
 	"net/http"
 	"net/url"
-	"strings"
 	"time"
+
+	"golang.org/x/text/cases"
+	"golang.org/x/text/language"
 )
 
 var token *Token
@@ -94,7 +96,7 @@ func getToken() (*tokenResponse, error) {
 // token stored or if the refresh request fails
 func refreshToken() (*tokenResponse, error) {
 	if token == nil {
-		return nil, fmt.Errorf("A nil token cannot be refreshed")
+		return nil, fmt.Errorf("a nil token cannot be refreshed")
 	}
 
 	tokenURL := Config.WallabagURL + "/oauth/v2/token"
@@ -149,6 +151,7 @@ func GetAuthTokenHeader() (string, error) {
 	if err != nil {
 		return "", err
 	}
-
-	return strings.Title(token.TokenType) + " " + token.AccessToken, nil
+	caser := cases.Title(language.Und, cases.NoLower)
+	authTokeHeader := caser.String(token.TokenType) + " " + token.AccessToken
+	return authTokeHeader, nil
 }
