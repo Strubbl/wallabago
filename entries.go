@@ -172,10 +172,27 @@ func GetAllEntries() ([]Item, error) {
 
 // GetAllEntriesWithAnnotationsSince calls GetEntries with the since parameter only
 func GetAllEntriesWithAnnotationsSince(since int) ([]Item, error) {
-	allEntries, err := GetAllEntries()
+	page := -1
+	perPage := -1
+	e, err := GetEntries(APICall, -1, -1, "", "", page, perPage, "", since, -1, "", "")
 	if err != nil {
-		log.Println("GetAllEntriesWithAnnotationsSince: GetAllEntries call failed", err)
+		log.Println("GetAllEntries: first GetEntries with since call failed", err)
 		return nil, err
+	}
+	allEntries := e.Embedded.Items
+	if e.Total > len(allEntries) {
+		secondPage := e.Page + 1
+		perPage = e.Limit
+		pages := e.Pages
+		for i := secondPage; i <= pages; i++ {
+			e, err := GetEntries(APICall, -1, -1, "", "", i, perPage, "", since, -1, "", "")
+			if err != nil {
+				log.Printf("GetAllEntries: GetEntries with since for page %d failed: %v", i, err)
+				return nil, err
+			}
+			tmpAllEntries := e.Embedded.Items
+			allEntries = append(allEntries, tmpAllEntries...)
+		}
 	}
 	var entriesWithAnnotations []Item
 	for i := 0; i < len(allEntries); i++ {
