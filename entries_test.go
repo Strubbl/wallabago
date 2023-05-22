@@ -11,7 +11,7 @@ func TestGetEntries(t *testing.T) {
 	expectedTotal := 11959
 	expectedPage := 1
 	expectedPages := 399
-	entries, _ := GetEntries(mockGetOneEntry, 0, 0, "", "", 0, expectedLimit, "")
+	entries, _ := GetEntries(mockGetOneEntry, 0, 0, "", "", 0, expectedLimit, "", 0, -1, "", "")
 	if entries.Total != expectedTotal {
 		t.Errorf("expected %v total entries, but got %v", expectedTotal, entries.Total)
 	}

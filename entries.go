@@ -3,6 +3,7 @@ package wallabago
 import (
 	"encoding/json"
 	"log"
+	"net/url"
 	"strconv"
 	"strings"
 	"time"
@@ -25,35 +26,35 @@ type Embedded struct {
 
 // Item represents individual items in API responses
 type Item struct {
-	Links          Links        `json:"_links"`
-	Annotations    []Annotation `json:"annotations"`
+	Links          Links         `json:"_links"`
+	Annotations    []Annotation  `json:"annotations"`
 	ArchivedAt     *WallabagTime `json:"archived_at"`
 	CreatedAt      *WallabagTime `json:"created_at"`
-	Content        string       `json:"content"`
-	DomainName     string       `json:"domain_name"`
-	GivenURL       string       `json:"given_url"`
-	HashedGivenURL string       `json:"hashed_given_url"`
-	HashedURL      string       `json:"hashed_url"`
-	ID             int          `json:"id"`
-	IsArchived     int          `json:"is_archived"`
-	IsPublic       bool         `json:"is_public"`
-	IsStarred      int          `json:"is_starred"`
-	Language       string       `json:"language"`
-	Mimetype       string       `json:"mimetype"`
-	OriginURL      string       `json:"origin_url"`
-	PreviewPicture string       `json:"preview_picture"`
+	Content        string        `json:"content"`
+	DomainName     string        `json:"domain_name"`
+	GivenURL       string        `json:"given_url"`
+	HashedGivenURL string        `json:"hashed_given_url"`
+	HashedURL      string        `json:"hashed_url"`
+	ID             int           `json:"id"`
+	IsArchived     int           `json:"is_archived"`
+	IsPublic       bool          `json:"is_public"`
+	IsStarred      int           `json:"is_starred"`
+	Language       string        `json:"language"`
+	Mimetype       string        `json:"mimetype"`
+	OriginURL      string        `json:"origin_url"`
+	PreviewPicture string        `json:"preview_picture"`
 	PublishedAt    *WallabagTime `json:"published_at"`
-	PublishedBy    []string       `json:"published_by"`
-	ReadingTime    int          `json:"reading_time"`
+	PublishedBy    []string      `json:"published_by"`
+	ReadingTime    int           `json:"reading_time"`
 	StarredAt      *WallabagTime `json:"starred_at"`
-	Tags           []Tag        `json:"tags"`
-	Title          string       `json:"title"`
-	UID            string       `json:"uid"`
+	Tags           []Tag         `json:"tags"`
+	Title          string        `json:"title"`
+	UID            string        `json:"uid"`
 	UpdatedAt      *WallabagTime `json:"updated_at"`
-	URL            string       `json:"url"`
-	UserEmail      string       `json:"user_email"`
-	UserID         int          `json:"user_id"`
-	UserName       string       `json:"user_name"`
+	URL            string        `json:"url"`
+	UserEmail      string        `json:"user_email"`
+	UserID         int           `json:"user_id"`
+	UserName       string        `json:"user_name"`
 }
 
 // WallabagTimeLayout is a variation of RFC3339 but without colons in
@@ -94,8 +95,7 @@ type Link struct {
 }
 
 // GetEntries queries the API for articles according to the API request /entries
-func GetEntries(bodyByteGetterFunc BodyByteGetter, archive int, starred int, sort string, order string, page int, perPage int, tags string) (Entries, error) {
-	//TODO API now supports since, public and detail as additional parameters
+func GetEntries(bodyByteGetterFunc BodyByteGetter, archive int, starred int, sort string, order string, page int, perPage int, tags string, since int, public int, detail string, domain_name string) (Entries, error) {
 	var e Entries
 	entriesURL := Config.WallabagURL + "/api/entries.json?"
 	if archive == 0 || archive == 1 {
@@ -119,6 +119,19 @@ func GetEntries(bodyByteGetterFunc BodyByteGetter, archive int, starred int, sor
 	if tags != "" {
 		entriesURL += "tags=" + tags + "&"
 	}
+	if since > 0 {
+		entriesURL += "since=" + strconv.Itoa(since) + "&"
+	}
+	if public >= 0 && (public == 0 || public == 1) {
+		entriesURL += "public=" + strconv.Itoa(public) + "&"
+	}
+	if detail == "metadata" || detail == "full" {
+		entriesURL += "detail=" + detail + "&"
+	}
+	if domain_name != "" {
+		domain_name_encoded := url.QueryEscape(domain_name)
+		entriesURL += "domain_name=" + domain_name_encoded + "&"
+	}
 
 	//log.Printf("getEntries: entriesURL=%s", entriesURL)
 	body, err := bodyByteGetterFunc(entriesURL, "GET", nil)
@@ -134,7 +147,7 @@ func GetEntries(bodyByteGetterFunc BodyByteGetter, archive int, starred int, sor
 func GetAllEntries() ([]Item, error) {
 	page := -1
 	perPage := -1
-	e, err := GetEntries(APICall, -1, -1, "", "", page, perPage, "")
+	e, err := GetEntries(APICall, -1, -1, "", "", page, perPage, "", 0, -1, "", "")
 	if err != nil {
 		log.Println("GetAllEntries: first GetEntries call failed", err)
 		return nil, err
@@ -145,7 +158,7 @@ func GetAllEntries() ([]Item, error) {
 		perPage = e.Limit
 		pages := e.Pages
 		for i := secondPage; i <= pages; i++ {
-			e, err := GetEntries(APICall, -1, -1, "", "", i, perPage, "")
+			e, err := GetEntries(APICall, -1, -1, "", "", i, perPage, "", 0, -1, "", "")
 			if err != nil {
 				log.Printf("GetAllEntries: GetEntries for page %d failed: %v", i, err)
 				return nil, err
@@ -159,7 +172,7 @@ func GetAllEntries() ([]Item, error) {
 
 // GetNumberOfTotalArticles returns the number of all articles saved in wallabag
 func GetNumberOfTotalArticles() (int, error) {
-	e, err := GetEntries(APICall, -1, -1, "", "", -1, -1, "")
+	e, err := GetEntries(APICall, -1, -1, "", "", -1, -1, "", 0, -1, "", "")
 	if err != nil {
 		return -1, err
 	}
@@ -168,7 +181,7 @@ func GetNumberOfTotalArticles() (int, error) {
 
 // GetNumberOfArchivedArticles returns the number of archived articles in wallabag
 func GetNumberOfArchivedArticles() (int, error) {
-	e, err := GetEntries(APICall, 1, -1, "", "", -1, -1, "")
+	e, err := GetEntries(APICall, 1, -1, "", "", -1, -1, "", 0, -1, "", "")
 	if err != nil {
 		return -1, err
 	}
@@ -177,14 +190,14 @@ func GetNumberOfArchivedArticles() (int, error) {
 
 // GetNumberOfStarredArticles returns the number of starred articles in wallabag (including unread and archived starred ones)
 func GetNumberOfStarredArticles() (int, error) {
-	e, err := GetEntries(APICall, -1, 1, "", "", -1, -1, "")
+	e, err := GetEntries(APICall, -1, 1, "", "", -1, -1, "", 0, -1, "", "")
 	if err != nil {
 		return -1, err
 	}
 	return e.Total, err
 }
 
-//PostEntry creates a new article in wallabag
+// PostEntry creates a new article in wallabag
 func PostEntry(url, title, tags string, starred, archive int) error {
 	postData := map[string]string{
 		"url":     url,
