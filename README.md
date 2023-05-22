@@ -75,5 +75,6 @@ Go wrapper library for the [Wallabag](https://github.com/wallabag/wallabag/) API
 * [wallabag-stats](https://codeberg.org/strubbl/wallabag-stats) - draws a chart for unread and total articles in your wallabag instance
 * [wallabag-add-article](https://codeberg.org/strubbl/wallabag-add-article) - commandline utility to add an article to wallabag
 * [wallabag_import_pocket_tags](https://github.com/pbarry/wallabag_import_pocket_tags) - commandline utility to copy tags from an export of Pocket articles to your Wallabag articles
-* [kindlebag](https://github.com/sum12/kindlebag) download all articles from wallabag directly to a jailbroken kindle
+* [kindlebag](https://github.com/sum12/kindlebag) - download all articles from wallabag directly to a jailbroken kindle
+* [walgot](https://git.sr.ht/~bacardi55/walgot) - a TUI wallabag client
 
