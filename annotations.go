@@ -20,6 +20,7 @@ type Annotation struct {
 	Ranges                 []Range      `json:"ranges"`
 	Text                   string       `json:"text"`
 	UpdatedAt              WallabagTime `json:"updated_at"`
+	User                   string       `json:"user"` // User is only present in the GET entries call, but not in the GET anntotations/id call
 }
 
 // Range represents the text borders of an annotation
