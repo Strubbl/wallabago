@@ -32,6 +32,7 @@ Go wrapper library for the [Wallabag](https://github.com/wallabag/wallabag/) API
 
 #### GET
 - [x] `GET /api/annotations/{entry}.{_format}`
+- [ ] `GET /api/config.{_format}`
 - [x] `GET /api/entries.{_format}`
 - [x] `GET /api/entries/exists.{_format}`
 - [x] `GET /api/entries/{entry}.{_format}`
