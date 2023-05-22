@@ -170,6 +170,22 @@ func GetAllEntries() ([]Item, error) {
 	return allEntries, err
 }
 
+// GetAllEntriesWithAnnotationsSince calls GetEntries with the since parameter only
+func GetAllEntriesWithAnnotationsSince(since int) ([]Item, error) {
+	allEntries, err := GetAllEntries()
+	if err != nil {
+		log.Println("GetAllEntriesWithAnnotationsSince: GetAllEntries call failed", err)
+		return nil, err
+	}
+	var entriesWithAnnotations []Item
+	for i := 0; i < len(allEntries); i++ {
+		if len(allEntries[i].Annotations) > 0 {
+			entriesWithAnnotations = append(entriesWithAnnotations, allEntries[i])
+		}
+	}
+	return entriesWithAnnotations, err
+}
+
 // GetNumberOfTotalArticles returns the number of all articles saved in wallabag
 func GetNumberOfTotalArticles() (int, error) {
 	e, err := GetEntries(APICall, -1, -1, "", "", -1, -1, "", 0, -1, "", "")
