@@ -1,6 +1,6 @@
-module github.com/Strubbl/wallabago/v7
+module github.com/Strubbl/wallabago/v8
 
-go 1.18
+go 1.20
 
 require golang.org/x/text v0.9.0
 
