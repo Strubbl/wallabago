@@ -81,6 +81,13 @@ func (t *WallabagTime) UnmarshalJSON(buf []byte) (err error) {
 	return err
 }
 
+// MarshalJSON converts the given time according to custom wallabag time format for saving as JSON
+func (t *WallabagTime) MarshalJSON() ([]byte, error) {
+	s := t.Time.Format(WallabagTimeLayout)
+	_json, err := json.Marshal(s)
+	return _json, err
+}
+
 // Links contains four links (self, first, last, next), being part of the Entries object
 type Links struct {
 	Self  *Link
