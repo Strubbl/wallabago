@@ -79,4 +79,5 @@ Go wrapper library for the [Wallabag](https://github.com/wallabag/wallabag/) API
 * [wallabag_import_pocket_tags](https://github.com/pbarry/wallabag_import_pocket_tags) - commandline utility to copy tags from an export of Pocket articles to your Wallabag articles
 * [kindlebag](https://github.com/sum12/kindlebag) - download all articles from wallabag directly to a jailbroken kindle
 * [walgot](https://git.sr.ht/~bacardi55/walgot) - a TUI wallabag client
+* [wallabag-logseq](https://codeberg.org/strubbl/wallabag-logseq) - sync wallabag article annotations to Logseq
 
