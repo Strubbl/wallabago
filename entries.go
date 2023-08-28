@@ -179,9 +179,14 @@ func GetAllEntries() ([]Item, error) {
 
 // GetAllEntriesWithAnnotationsSince calls GetEntries with the since parameter only
 func GetAllEntriesWithAnnotationsSince(since int) ([]Item, error) {
-	page := -1
+	return GetAllEntriesWithAnnotations(since, "", "")
+}
+
+// GetAllEntriesWithAnnotations calls GetEntries with the since, sort and order parameter only
+func GetAllEntriesWithAnnotations(since int, sort string, order string) ([]Item, error) {
+	page := 1
 	perPage := -1
-	e, err := GetEntries(APICall, -1, -1, "", "", page, perPage, "", since, -1, "", "")
+	e, err := GetEntries(APICall, -1, -1, sort, order, page, perPage, "", since, -1, "", "")
 	if err != nil {
 		log.Println("GetAllEntries: first GetEntries with since call failed", err)
 		return nil, err
@@ -192,7 +197,7 @@ func GetAllEntriesWithAnnotationsSince(since int) ([]Item, error) {
 		perPage = e.Limit
 		pages := e.Pages
 		for i := secondPage; i <= pages; i++ {
-			e, err := GetEntries(APICall, -1, -1, "", "", i, perPage, "", since, -1, "", "")
+			e, err := GetEntries(APICall, -1, -1, sort, order, i, perPage, "", since, -1, "", "")
 			if err != nil {
 				log.Printf("GetAllEntries: GetEntries with since for page %d failed: %v", i, err)
 				return nil, err
