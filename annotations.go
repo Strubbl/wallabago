@@ -34,7 +34,7 @@ type Range struct {
 // GetAnnotations queries the API for all annotations of an article according to /api/annotations/ID
 func GetAnnotations(bodyByteGetterFunc BodyByteGetter, articleID int) (Annotations, error) {
 	var annotations Annotations
-	annoURL := Config.WallabagURL + "/api/annotations/" + strconv.Itoa(articleID) + ".json"
+	annoURL := LibConfig.WallabagURL + "/api/annotations/" + strconv.Itoa(articleID) + ".json"
 	body, err := bodyByteGetterFunc(annoURL, "GET", nil)
 	if err != nil {
 		return annotations, err

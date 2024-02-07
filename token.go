@@ -69,14 +69,14 @@ func responseToToken(tokenResponse *tokenResponse) *Token {
 // getToken will use the credentials set in the configuration to
 // request an access token from the wallabag API
 func getToken() (*tokenResponse, error) {
-	tokenURL := Config.WallabagURL + "/oauth/v2/token"
+	tokenURL := LibConfig.WallabagURL + "/oauth/v2/token"
 	resp, err := http.PostForm(tokenURL,
 		url.Values{
 			"grant_type":    {"password"},
-			"client_id":     {Config.ClientID},
-			"client_secret": {Config.ClientSecret},
-			"username":      {Config.UserName},
-			"password":      {Config.UserPassword},
+			"client_id":     {LibConfig.ClientID},
+			"client_secret": {LibConfig.ClientSecret},
+			"username":      {LibConfig.UserName},
+			"password":      {LibConfig.UserPassword},
 		})
 	if err != nil {
 		return nil, err
@@ -99,12 +99,12 @@ func refreshToken() (*tokenResponse, error) {
 		return nil, fmt.Errorf("a nil token cannot be refreshed")
 	}
 
-	tokenURL := Config.WallabagURL + "/oauth/v2/token"
+	tokenURL := LibConfig.WallabagURL + "/oauth/v2/token"
 	resp, err := http.PostForm(tokenURL,
 		url.Values{
 			"grant_type":    {"refresh_token"},
-			"client_id":     {Config.ClientID},
-			"client_secret": {Config.ClientSecret},
+			"client_id":     {LibConfig.ClientID},
+			"client_secret": {LibConfig.ClientSecret},
 			"refresh_token": {token.RefreshToken},
 		})
 	if err != nil {

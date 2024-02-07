@@ -2,7 +2,7 @@ package wallabago
 
 // Version returns the version of the configured wallabag instance
 func Version(bodyStringGetterFunc BodyStringGetter) (string, error) {
-	v, err := bodyStringGetterFunc(Config.WallabagURL+"/api/version", "GET", nil)
+	v, err := bodyStringGetterFunc(LibConfig.WallabagURL+"/api/version", "GET", nil)
 	if err != nil {
 		return "", err
 	}

@@ -12,7 +12,7 @@ type Information struct {
 // Info returns the info of the configured wallabag instance
 func Info(bodyByteGetterFunc BodyByteGetter) (Information, error) {
 	var info Information
-	infoJSONByte, err := bodyByteGetterFunc(Config.WallabagURL+"/api/info", "GET", nil)
+	infoJSONByte, err := bodyByteGetterFunc(LibConfig.WallabagURL+"/api/info", "GET", nil)
 	if err != nil {
 		return info, err
 	}

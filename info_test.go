@@ -3,7 +3,6 @@ package wallabago
 import "testing"
 
 func TestInfo(t *testing.T) {
-	// expect string without quotes
 	expected := Information{Appname: "wallabag", Version: "2.6.8", AllowedRegistration: false}
 	got, _ := Info(mockGetBodyOfInfoApiCall)
 	if expected != got {

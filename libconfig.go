@@ -6,8 +6,8 @@ import (
 	"os"
 )
 
-// Config containing all data to access wallabag API
-var Config WallabagConfig
+// LibConfig containing all data to access wallabag API
+var LibConfig WallabagConfig
 
 // WallabagConfig contains all data needed to connect to wallabag API like URL, id and secret of the API client and user name and according password
 type WallabagConfig struct {
@@ -25,14 +25,14 @@ func NewWallabagConfig(wallabagURL, clientID, clientSecret, userName, userPasswo
 
 // SetConfig sets global wallabago Config
 func SetConfig(wbgConfig WallabagConfig) {
-	Config = wbgConfig
+	LibConfig = wbgConfig
 }
 
 // ReadConfig will read the configuration from the given configJSON
 // file and set the global Config setting with the results of the
 // parsing
 func ReadConfig(configJSON string) (err error) {
-	Config, err = getConfig(configJSON)
+	LibConfig, err = getConfig(configJSON)
 	return
 }
 

@@ -16,7 +16,7 @@ type Tag struct {
 // GetTagsOfEntry queries the API for the tags of an article /entries/ID
 func GetTagsOfEntry(bodyByteGetterFunc BodyByteGetter, articleID int) ([]Tag, error) {
 	var tags []Tag
-	entryTagsURL := Config.WallabagURL + "/api/entries/" + strconv.Itoa(articleID) + "/tags.json"
+	entryTagsURL := LibConfig.WallabagURL + "/api/entries/" + strconv.Itoa(articleID) + "/tags.json"
 	body, err := bodyByteGetterFunc(entryTagsURL, "GET", nil)
 	if err != nil {
 		return tags, err
@@ -28,7 +28,7 @@ func GetTagsOfEntry(bodyByteGetterFunc BodyByteGetter, articleID int) ([]Tag, er
 // GetTags queries the API for all tags in wallabag /tags
 func GetTags(bodyByteGetterFunc BodyByteGetter) ([]Tag, error) {
 	var tags []Tag
-	tagsURL := Config.WallabagURL + "/api/tags"
+	tagsURL := LibConfig.WallabagURL + "/api/tags"
 	body, err := bodyByteGetterFunc(tagsURL, "GET", nil)
 	if err != nil {
 		return tags, err
@@ -39,7 +39,7 @@ func GetTags(bodyByteGetterFunc BodyByteGetter) ([]Tag, error) {
 
 // AddEntryTags add tags to an entry
 func AddEntryTags(entry int, tags ...string) error {
-	url := Config.WallabagURL + "/api/entries/" + strconv.Itoa(entry) + "/tags.json"
+	url := LibConfig.WallabagURL + "/api/entries/" + strconv.Itoa(entry) + "/tags.json"
 	data := map[string]string{
 		"tags": strings.Join(tags, ","),
 	}
@@ -53,7 +53,7 @@ func AddEntryTags(entry int, tags ...string) error {
 
 // DeleteEntryTag removes a tag from an entry
 func DeleteEntryTag(entry int, tag int) error {
-	url := Config.WallabagURL + "/api/entries/" + strconv.Itoa(entry) + "/tags/" + strconv.Itoa(tag) + ".json"
+	url := LibConfig.WallabagURL + "/api/entries/" + strconv.Itoa(entry) + "/tags/" + strconv.Itoa(tag) + ".json"
 	_, err := APICall(url, "DELETE", nil)
 	return err
 }
