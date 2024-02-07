@@ -3,7 +3,7 @@ package wallabago
 import (
 	"bytes"
 	"encoding/json"
-	"io/ioutil"
+	"os"
 )
 
 // Config containing all data to access wallabag API
@@ -38,7 +38,7 @@ func ReadConfig(configJSON string) (err error) {
 
 // getConfig reads a given configJSON file and parses the result, returning a parsed config object
 func getConfig(configJSON string) (config WallabagConfig, err error) {
-	raw, err := ioutil.ReadFile(configJSON)
+	raw, err := os.ReadFile(configJSON)
 	if err != nil {
 		return
 	}

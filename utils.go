@@ -1,7 +1,7 @@
 package wallabago
 
 import (
-	"io/ioutil"
+	"io"
 	"log"
 	"net/http"
 	"strings"
@@ -36,9 +36,9 @@ func APICall(apiURL string, httpMethod string, postData []byte) ([]byte, error) 
 		return nil, err
 	}
 	defer resp.Body.Close()
-	body, err := ioutil.ReadAll(resp.Body)
+	body, err := io.ReadAll(resp.Body)
 	if err != nil {
-		log.Printf("APICall: error while ioutil.ReadAll %v\n", err)
+		log.Printf("APICall: error while io.ReadAll %v\n", err)
 		return nil, err
 	}
 	if resp.StatusCode != http.StatusOK {
