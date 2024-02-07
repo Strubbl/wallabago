@@ -40,7 +40,7 @@ Go wrapper library for the [Wallabag](https://github.com/wallabag/wallabag/) API
 - [x] `GET /api/entries/{entry}.{_format}`
 - [x] `GET /api/entries/{entry}/export.{_format}`
 - [x] `GET /api/entries/{entry}/tags.{_format}`
-- [ ] `GET /api/info.{_format}`
+- [x] `GET /api/info.{_format}`
 - [ ] `GET /api/search.{_format}`
 - [ ] `GET /api/taggingrule/export.{_format}`
 - [x] `GET /api/tags.{_format}`
