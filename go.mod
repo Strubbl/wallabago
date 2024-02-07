@@ -1,4 +1,4 @@
-module github.com/Strubbl/wallabago/v8
+module github.com/Strubbl/wallabago/v9
 
 go 1.21
 
