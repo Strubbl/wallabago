@@ -22,7 +22,8 @@ Go wrapper library for the [Wallabag](https://github.com/wallabag/wallabag/) API
 * wallago version 7.0.2: tested only with wallabag 2.4.3 - 2.5.1
 * wallago version 7.0.3 until 7.0.4 version: tested only with wallabag 2.5.2 - 2.5.4
 * wallago version 8.0.0 until 8.1.0: tested only with wallabag 2.5.4 - 2.6.4
-* wallago version 8.2.0 until latest version: tested only with wallabag 2.6.5
+* wallago version 8.2.0 until 8.2.1: tested only with wallabag 2.6.5 - 2.6.8
+* wallago version 9.0.0 until latest version: tested only with wallabag 2.6.8
 
 
 ### Go Report Card
@@ -34,7 +35,7 @@ Go wrapper library for the [Wallabag](https://github.com/wallabag/wallabag/) API
 
 #### GET
 - [x] `GET /api/annotations/{entry}.{_format}`
-- [ ] `GET /api/config.{_format}`
+- [x] `GET /api/config.{_format}`
 - [x] `GET /api/entries.{_format}`
 - [x] `GET /api/entries/exists.{_format}`
 - [x] `GET /api/entries/{entry}.{_format}`
