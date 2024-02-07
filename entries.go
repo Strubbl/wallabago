@@ -88,6 +88,14 @@ func (t *WallabagTime) MarshalJSON() ([]byte, error) {
 	return _json, err
 }
 
+// Equal compares the year, month, day, hours, minutes and seconds of the given WallabagTimes
+func (t1 *WallabagTime) Equal(t2 *WallabagTime) bool {
+	if t1.Year() != t2.Year() || t1.Month() != t2.Month() || t1.Day() != t2.Day() || t1.Hour() != t2.Hour() || t1.Minute() != t2.Minute() || t1.Second() != t2.Second() {
+		return false
+	}
+	return true
+}
+
 // Links contains four links (self, first, last, next), being part of the Entries object
 type Links struct {
 	Self  *Link

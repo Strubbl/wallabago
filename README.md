@@ -45,8 +45,8 @@ Go wrapper library for the [Wallabag](https://github.com/wallabag/wallabag/) API
 - [ ] `GET /api/search.{_format}`
 - [ ] `GET /api/taggingrule/export.{_format}`
 - [x] `GET /api/tags.{_format}`
-- [ ] `GET /api/user.{_format}`
-- [x] `GET /api/version.{_format}` DEPRECATED by wallabag server 2.4
+- [x] `GET /api/user.{_format}`
+- [x] `GET /api/version.{_format}` DEPRECATED since wallabag version 2.4
 
 #### POST
 - [ ] `POST /api/annotations/{entry}.{_format}`
