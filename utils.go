@@ -13,24 +13,6 @@ type BodyStringGetter func(url string, httpMethod string, postData []byte) (stri
 // BodyByteGetter represents a function returning the body of an HTTP response as byte array
 type BodyByteGetter func(url string, httpMethod string, postData []byte) ([]byte, error)
 
-// makes a HTTP request and returns the HTML code of that URL
-func getBodyOfURL(url string) (string, error) {
-	resp, err := http.Get(url)
-	if err != nil {
-		log.Printf("getBodyOfURL: %v\n", err)
-		return "", err
-	}
-	defer resp.Body.Close()
-	b, err := ioutil.ReadAll(resp.Body)
-	if err != nil {
-		log.Printf("getBodyOfURL: reading %s: %v\n", url, err)
-		return "", err
-	}
-	//log.Print(resp.Status)
-	//log.Printf("%s", b)
-	return string(b), err
-}
-
 // APICall authenticates to wallabag instane before issuing the HTTP request
 func APICall(apiURL string, httpMethod string, postData []byte) ([]byte, error) {
 	client := &http.Client{}
