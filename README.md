@@ -9,7 +9,7 @@ Go wrapper library for the [Wallabag](https://github.com/wallabag/wallabag/) API
 - https://github.com/wallabag/wallabag/
 - https://doc.wallabag.org/en/developer/api/readme.html
 - https://app.wallabag.it/api/doc
-
+- [![Go Reference](https://pkg.go.dev/badge/github.com/Strubbl/wallabago.svg)](https://pkg.go.dev/github.com/Strubbl/wallabago)
 
 ## Project Status
 
@@ -83,3 +83,6 @@ Go wrapper library for the [Wallabag](https://github.com/wallabag/wallabag/) API
 * [walgot](https://git.sr.ht/~bacardi55/walgot) - a TUI wallabag client
 * [wallabag-logseq](https://codeberg.org/strubbl/wallabag-logseq) - sync wallabag article annotations to Logseq
 * [cleanABag](https://git.sr.ht/~bacardi55/cleanABag) - CLI tool for removing articles older than a given date from wallabag
+* [article-summarizer](https://github.com/kahnwong/article-summarizer/)
+* [wallabag-tagger](https://github.com/kahnwong/wallabag-tagger)
+* [wallabag-to-epub](https://github.com/kahnwong/wallabag-to-epub)
